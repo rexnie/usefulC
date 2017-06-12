@@ -9,6 +9,11 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include src/tcpl/ch7/7-3/subdir.mk
+-include src/tcpl/ch4/4-2/subdir.mk
+-include src/tcpl/ch4/4-1/subdir.mk
+-include src/tcpl/ch3/3-6/subdir.mk
+-include src/tcpl/ch3/3-5/subdir.mk
+-include src/tcpl/ch3/3-4/subdir.mk
 -include src/tcpl/ch3/3-3/subdir.mk
 -include src/tcpl/ch3/3-2/subdir.mk
 -include src/tcpl/ch3/3-1/subdir.mk
@@ -20,7 +25,6 @@ RM := rm -rf
 -include src/tcpl/ch2/2-4/subdir.mk
 -include src/tcpl/ch2/2-3/subdir.mk
 -include src/tcpl/ch2/2-10/subdir.mk
--include src/tcpl/subdir.mk
 -include subdir.mk
 -include objects.mk
 

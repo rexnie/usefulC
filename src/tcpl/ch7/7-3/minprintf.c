@@ -9,10 +9,9 @@
 #include <limits.h>
 
 #include "tcpl/minprintf.h"
-#define TEST    1
+#define TEST    0
 
-void minprintf(char *fmt, ...)
-{
+void minprintf(char *fmt, ...) {
 	va_list ap; /*指向无名参数*/
 	char *p, *sval;
 	int ival;
