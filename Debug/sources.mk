@@ -29,5 +29,6 @@ src/tcpl/ch3/3-5 \
 src/tcpl/ch3/3-6 \
 src/tcpl/ch4/4-1 \
 src/tcpl/ch4/4-2 \
+src/tcpl/ch4/4-3book \
 src/tcpl/ch7/7-3 \
 
