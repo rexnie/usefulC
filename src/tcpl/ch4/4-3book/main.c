@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include "calc.h"
 
@@ -38,10 +39,20 @@ int main(void) {
 			break;
 		case '/':
 			op2 = popd();
-			pushd(popd() / op2); /* 函数调用的参数的求值顺序不确定的，需要先在之前就得到op2 */
+			if (op2 == 0.0)
+				printf("error: divide by zero!!\n");
+			else
+				pushd(popd() / op2); /* 函数调用的参数的求值顺序不确定的，需要先在之前就得到op2 */
 			break;
 		case '\n':
 			printf("\t%.8g\n", popd()); /* 一行读完，输出结果继续读下一行 */
+			break;
+		case '%':
+			op2 = popd();
+			if (op2 == 0.0)
+				printf("error: divide by zero!!\n");
+			else
+				pushd(fmod(popd(), op2));
 			break;
 		default:
 			printf("error: unknown command %s\n", s);
