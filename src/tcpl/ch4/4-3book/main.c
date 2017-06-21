@@ -48,6 +48,16 @@ int main(void) {
 			printf("\t%.8g\n", popd()); /* 一行读完，输出结果继续读下一行 */
 			break;
 		case '%':
+			/**
+			 * 关于数学中的模运算的说明：
+			 *
+			 * a = bn + r, 其中b为除数，不为0, n为整数，且 |r| < |b|
+			 *
+			 * c/java等语言，求模使用truncate，python使用floor.
+			 * 详细参考:[详解负数取模运算] http://blog.csdn.net/hk2291976/article/details/52775299
+			 * r = a - bn
+			 * 	 = a - b * trunc(a/b)
+			 */
 			op2 = popd();
 			if (op2 == 0.0)
 				printf("error: divide by zero!!\n");
