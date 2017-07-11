@@ -1,6 +1,5 @@
-CFLAGS += -DTEST=1 -l m
-LDFLAGS += -l m
-#LDLIBS += m
+CFLAGS += -DTEST=1
+LDLIBS += -lm
 atof.out : atof.o
 	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
