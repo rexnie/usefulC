@@ -11,7 +11,9 @@
 
 #include "calc.h"
 
-#define TEST    1
+#ifndef TEST
+#define TEST    0
+#endif
 
 #define MAXOP	100
 
