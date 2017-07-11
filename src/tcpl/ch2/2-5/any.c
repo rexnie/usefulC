@@ -7,8 +7,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
+#ifndef TEST
 #define TEST    0
+#endif
 
 int any(char *s1,char *s2)
 {

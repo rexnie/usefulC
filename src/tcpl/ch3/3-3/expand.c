@@ -8,7 +8,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+
+#ifndef TEST
 #define TEST    0
+#endif
 
 #define CHAR_UNKNOW (-1)
 #define CHAR_DIGIT	0
@@ -73,7 +76,7 @@ int main(void) {
 	char s2[100];
 
 	expand(s1, s2);
-	printf("%s", s2);
-    return EXIT_SUCCESS;
+	printf("%s\n", s2);
+	return EXIT_SUCCESS;
 }
 #endif

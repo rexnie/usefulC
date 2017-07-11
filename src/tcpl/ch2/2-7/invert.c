@@ -8,7 +8,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifndef TEST
 #define TEST    0
+#endif
 
 unsigned invert(unsigned x, int p, int n)
 {

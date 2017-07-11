@@ -9,7 +9,9 @@
 #include <stdlib.h>
 #include <time.h>
 
+#ifndef TEST
 #define TEST    0
+#endif
 
 int binsearch(int x, int v[], int n)
 {

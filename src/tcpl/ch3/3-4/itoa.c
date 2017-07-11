@@ -11,7 +11,9 @@
 #include <string.h>
 #include <limits.h>
 
+#ifndef TEST
 #define TEST    0
+#endif
 
 /* 反转字符串s */
 static void reverse(char s[]) {

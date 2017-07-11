@@ -11,7 +11,9 @@
 #include <string.h>
 #include <math.h>
 
+#ifndef TEST
 #define TEST    0
+#endif
 
 /* 把字符串s转换为相应的双精度浮点数 */
 double my_atof(char s[]) {

@@ -8,7 +8,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#ifndef TEST
 #define TEST    0
+#endif
 
 char* squeeze(char *s1, char *s2) {
 	int i, j;
@@ -26,7 +29,7 @@ char* squeeze(char *s1, char *s2) {
 int main(void) {
 	char s1[200], s2[200];
 	scanf("%s %s",s1, s2);
-	printf("%s", squeeze(s1,s2));
+	printf("%s\n", squeeze(s1,s2));
     return EXIT_SUCCESS;
 }
 #endif

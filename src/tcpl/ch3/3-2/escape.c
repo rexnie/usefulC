@@ -7,8 +7,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
+#ifndef TEST
 #define TEST    0
+#endif
 
 /**
  * 将字符串t拷贝到s,遇到换行符'\n'，制表符'\t'等不可打印字符转换为"\\n", "\\t"
@@ -129,9 +132,9 @@ int main(void) {
 	char r[100] = "";
 	char *t = "\\C\nh\rina";
 
-	printf("t=%s, len(t)=%d, %s, len(s)=%d\n", t, strlen(t), escape(s, t), strlen(s));
+	printf("t=%s, len(t)=%ld, %s, len(s)=%ld\n", t, strlen(t), escape(s, t), strlen(s));
 
-	printf("%s, len(r)=%d\n", escape_r(r, s), strlen(r));
+	printf("%s, len(r)=%ld\n", escape_r(r, s), strlen(r));
 
 	return EXIT_SUCCESS;
 }

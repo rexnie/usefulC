@@ -8,7 +8,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifndef TEST
 #define TEST    0
+#endif
 
 int bitcount(unsigned x)
 {
@@ -32,7 +34,7 @@ int bitcount2(unsigned x)
 int main(void) {
 	unsigned x;
 	scanf("%d", &x);
-	printf("%d %d", bitcount(x), bitcount2(x));
-    return EXIT_SUCCESS;
+	printf("%d %d\n", bitcount(x), bitcount2(x));
+	return EXIT_SUCCESS;
 }
 #endif

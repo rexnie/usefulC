@@ -8,7 +8,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifndef TEST
 #define TEST	0
+#endif
+
 #define BASE	16
 
 int htoi(char *hex_str) {

@@ -10,7 +10,9 @@
 #include <ctype.h>
 #include <string.h>
 
+#ifndef TEST
 #define TEST    0
+#endif
 
 /* 返回字符串t在s中最右边出现的位置，如果s不包含t,返回-1 */
 int strrindex(char s[], char t[]) {

@@ -13,7 +13,9 @@
 
 #include "stack.h"
 
+#ifndef TEST
 #define TEST    0
+#endif
 
 /* 将数字n转换为b进制的字符串并保存到s中，指定字符宽度，
  * 不足的左边填充空格
