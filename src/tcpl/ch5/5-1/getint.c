@@ -24,8 +24,19 @@ int getint(int *pn) {
 	}
 
 	sign = (c == '-') ? -1 : 1;
-	if (c == '+' || c == '-')
+	if (c == '+' || c == '-') {
+		int c_sign;
+
+		c_sign = c;
 		c = getch();
+		if (!isdigit(c)) {	/* 符号位后面没有紧跟着数字 */
+			while (isspace(c = getch())) /* 去掉符号位后面的空格 */
+				;
+			ungetch(c);
+			ungetch(c_sign);
+			return 0;
+		}
+	}
 	
 	for (*pn = 0; isdigit(c); c = getch())
 		*pn = 10 * *pn + (c - '0');
@@ -45,7 +56,7 @@ int main(void) {
 	
 	for (n = 0; n < N && getint(&array[n]) != EOF; n++)
 		;
-	
+
 	for (n = 0; n < N; n++) {
 		printf("array[%d]=%d\n", n, array[n]);
 	}
