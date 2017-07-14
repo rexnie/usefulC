@@ -91,16 +91,18 @@ int main(void) {
 	int nlines;
 	char lines[MAXLINES][MAXLEN];
 	clock_t time_start;
+	time_t t_start;
 
 	printf("Usage: \n"
 		"./str_sort.out <in.txt \n"
 		"./str_sort.out \n"
 		"      press ctrl+D to send EOF \n");
 	time_start = clock();
+	t_start = time(NULL);
 	if ((nlines = readlines(g_lineptr, MAXLINES, lines)) >= 0) {
 		qsort_local(g_lineptr, 0, nlines - 1);
 		writelines(g_lineptr, nlines);
-		printf("time: %ld\n", clock() - time_start);
+		printf("time: %ld, %g\n", clock() - time_start, difftime(time(NULL), t_start));
 		return EXIT_SUCCESS;
 	} else {
 		printf("error: input too big to sort\n");
