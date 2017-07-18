@@ -37,3 +37,7 @@
 .project
 .settings/
 Debug/
+
+tags
+.*.swp
+filenametags
