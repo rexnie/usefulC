@@ -21,3 +21,19 @@ int binsearch(char *word, struct key tab[], int n)
 	}
 	return strcmp(word, tab[low].word) == 0 ? low : -1;
 }
+/*指针版本*/
+struct key *binsearch_p(char *word, struct key *tab, int n)
+{
+	struct key *low, *high, *mid;
+
+	low = &tab[0];
+	high = &tab[n - 1];
+	while (low < high) {
+		mid = low + (high - low) / 2; /*指针加法非法，high-low为中间元素个数*/
+		if (strcmp(word, mid->word) <= 0)
+			high = mid;
+		else
+			low = mid + 1;
+	}
+	return strcmp(word, low->word) == 0 ? low : NULL;
+}

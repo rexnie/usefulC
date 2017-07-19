@@ -5,6 +5,7 @@
 #define MAXWORD 100
 
 int binsearch(char *word, struct key tab[], int n);
+struct key *binsearch_p(char *word, struct key *tab, int n);
 int getword(char *word, int lim);
 
 struct key keytab[] = {
@@ -47,14 +48,17 @@ struct key keytab[] = {
 
 #define NKEYS  (sizeof(keytab) / sizeof(keytab[0]))
 
+/* 统计C关键字出现的次数 */
 int main(void)
 {
+#define USE_POINTER 1
+#if !USE_POINTER
 	int n;
 	char word[MAXWORD];
 
 	while (getword(word, MAXWORD) != EOF)
 	{
-		printf("%s\n", word);
+		//printf("%s\n", word);
 		if ((isalpha(word[0]) || word[0] == '_') &&
 				(n = binsearch(word, keytab, NKEYS)) >= 0)
 			keytab[n].count++;
@@ -63,5 +67,21 @@ int main(void)
 	for (n = 0; n < NKEYS; n++)
 		if (keytab[n].count > 0)
 			printf("%4d %s\n", keytab[n].count, keytab[n].word);
+#else
+	struct key *p;
+	char word[MAXWORD];
+
+	while (getword(word, MAXWORD) != EOF)
+	{
+		//printf("%s\n", word);
+		if ((isalpha(word[0]) || word[0] == '_') &&
+				(p = binsearch_p(word, keytab, NKEYS)) != NULL)
+			p->count++;
+	}
+
+	for (p = keytab; p < keytab + NKEYS; p++)
+		if (p->count > 0)
+			printf("%4d %s\n", p->count, p->word);
+#endif
 	return EXIT_SUCCESS;
 }
