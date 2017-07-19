@@ -3,9 +3,6 @@
 #include <ctype.h>
 #include <string.h>
 
-#define MAXLINE 1000
-#define MAXLEN 	1000
-
 /**
  * 从输入中读取一个单词放到word,
  * lim标志着buf的最大长度
@@ -27,12 +24,31 @@ int getword(char *word, int lim)
 		;
 	if (c != EOF)
 		*w++ = c;
-	if (!isalpha(c)) {
+	if (!isalpha(c) && c != '_') {
+		if (c == '"') { // 处理字符串常量, 直接忽略""之间的字符串
+			while ((c = getch()) != '"')
+				;
+		} else if (c = '/') {
+			if ((c = getch()) == '/') { // 处理//注释,直接忽略// \n之间的字符串
+				while ((c = getch()) != '\n')
+					;
+			} else if (c == '*') { // 处理/**/注释,直接忽略/**/之间的字符串
+				int last;
+				last = getch();
+again:
+				while ((c = getch()) != '/')
+					last = c;
+				if (last != '*')
+					goto again;
+			} else
+				ungetch(c);
+		}
+
 		*w = '\0';
 		return c;
 	}
 	for (; --lim > 0; w++)
-		if (!isalnum(*w = getch())) {
+		if (!isalnum(*w = getch()) && *w != '_') {
 			ungetch(*w);
 			break;
 		}

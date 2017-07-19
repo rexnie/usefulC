@@ -8,6 +8,7 @@ int binsearch(char *word, struct key tab[], int n);
 int getword(char *word, int lim);
 
 struct key keytab[] = {
+	{ "_abc", 0 }, /*这不是关键字，测试_开头标志符用*/
 	{ "asm", 0 },
 	{ "auto", 0 },
 	{ "break", 0 },
@@ -41,6 +42,7 @@ struct key keytab[] = {
 	{ "void", 0 },
 	{ "volatile", 0 },
 	{ "while", 0 },
+
 };
 
 #define NKEYS  (sizeof(keytab) / sizeof(keytab[0]))
@@ -51,9 +53,12 @@ int main(void)
 	char word[MAXWORD];
 
 	while (getword(word, MAXWORD) != EOF)
-		if (isalpha(word[0]) &&
+	{
+		printf("%s\n", word);
+		if ((isalpha(word[0]) || word[0] == '_') &&
 				(n = binsearch(word, keytab, NKEYS)) >= 0)
 			keytab[n].count++;
+	}
 
 	for (n = 0; n < NKEYS; n++)
 		if (keytab[n].count > 0)
