@@ -8,8 +8,8 @@
 
 #define BUFSIZE	100
 
-/*static*/ char buf[BUFSIZE]; /* 用于ungetch()的缓冲区 */
-//static int bufp = 0; /* 指向一个空闲的位置 */
+static char buf[BUFSIZE]; /* 用于ungetch()的缓冲区 */
+static int bufp = 0; /* 指向一个空闲的位置 */
 
 /* 取一个字符
  * 如果缓冲区为空，从标准输入读一个
@@ -26,7 +26,3 @@ void ungetch(int c) {
 	else
 		buf[bufp++] = c;
 }
-_abc
-_abb _abc
-while
-whilf

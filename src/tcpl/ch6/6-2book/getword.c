@@ -3,7 +3,7 @@
 #include <ctype.h>
 #include <string.h>
 
-#define SKIP_COMMET_STRING
+//#define SKIP_COMMET_STRING
 
 /**
  * 从输入中读取一个单词放到word,
