@@ -8,8 +8,11 @@
 #include <stdlib.h>
 #include <limits.h>
 
-#include "tcpl/minprintf.h"
+#include "minprintf.h"
+
+#ifndef TEST
 #define TEST    0
+#endif
 
 void minprintf(char *fmt, ...) {
 	va_list ap; /*指向无名参数*/
