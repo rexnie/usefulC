@@ -6,5 +6,15 @@ void mfree(void *ap);
 void *mcalloc(size_t nmemb, unsigned size);
 
 /* test functions, should used internal */
-void dump_free_list(void);
+#undef DEBUG
+//#define DEBUG
+
+#ifdef DEBUG
+void dump_free_list(const char *, int);
+#define dbg(fmt, args...) printf(fmt, ##args)
+#else
+#define dump_free_list(func, lineno)
+#define dbg
+#endif
+
 #endif
