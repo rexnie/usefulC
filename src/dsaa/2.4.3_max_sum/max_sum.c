@@ -1,7 +1,14 @@
 #include <stdio.h>
+#include <stdlib.h>
 /**
  * 最大子序列和问题
  */
+
+// 定义其中一个宏选择测试算法
+//#define CubicAlgorithm
+//#define QuadraticAlgorithm
+//#define NlogNAlgorithm
+#define LinearAlgorithm
 
 #ifdef CubicAlgorithm
 
@@ -70,6 +77,15 @@ static int Max3( int A, int B, int C )
 }
 
 /* START: fig2_7.txt */
+/**
+ * 递归算法，采用分治(divide-and-conquer)策略
+ * 时间复杂度为 O(N*logN)
+ * 注意事项：
+ * 1. 别重复算边界, 包括
+ *   @1和@2刚好构成，[Left,Right],
+ *   @3和@4刚好构成，[Left,Right],
+ * 2. @3,@4的起始循环位置是有讲究的，必须从中间开始
+ */
 static int MaxSubSum( const int A[ ], int Left, int Right )
 {
 	int MaxLeftSum, MaxRightSum;
@@ -77,18 +93,20 @@ static int MaxSubSum( const int A[ ], int Left, int Right )
 	int LeftBorderSum, RightBorderSum;
 	int Center, i;
 
-	if( Left == Right )  /* Base case */
-		if( A[ Left ] > 0 )
+	if( Left == Right )  /* Base case, 只有一个元素的子序列 */
+		if( A[ Left ] > 0 ) /* >0 即纳入和 */
 			return A[ Left ];
 		else
 			return 0;
 
 	Center = ( Left + Right ) / 2;
-	MaxLeftSum = MaxSubSum( A, Left, Center );
-	MaxRightSum = MaxSubSum( A, Center + 1, Right );
+/* @1*/	MaxLeftSum = MaxSubSum( A, Left, Center ); /* 递归求解前半部分 */
+/* @2*/	MaxRightSum = MaxSubSum( A, Center + 1, Right ); /* 递归求解后半部分 */
 
 	MaxLeftBorderSum = 0; LeftBorderSum = 0;
-	for( i = Center; i >= Left; i-- )
+/* @3*/	for( i = Center; i >= Left; i-- ) /* 求解左半部分最大和，包括Center/Left边界
+					    i 的起始位置一定是Center开始，不是Left开始,
+					    因为要跨越中间的位置，最大和必须包括Center */
 	{
 		LeftBorderSum += A[ i ];
 		if( LeftBorderSum > MaxLeftBorderSum )
@@ -96,7 +114,8 @@ static int MaxSubSum( const int A[ ], int Left, int Right )
 	}
 
 	MaxRightBorderSum = 0; RightBorderSum = 0;
-	for( i = Center + 1; i <= Right; i++ )
+/* @4*/	for( i = Center + 1; i <= Right; i++ ) /* 求解右半部分最大和，包括Center+1/Right边界
+					    i 的起始位置一定是Center+1开始，不是Right开始 */
 	{
 		RightBorderSum += A[ i ];
 		if( RightBorderSum > MaxRightBorderSum )
@@ -104,11 +123,16 @@ static int MaxSubSum( const int A[ ], int Left, int Right )
 	}
 
 	return Max3( MaxLeftSum, MaxRightSum,
-			MaxLeftBorderSum + MaxRightBorderSum );
+			MaxLeftBorderSum + MaxRightBorderSum ); /* 跨越中间的，[Left, Right] 最大和*/
 }
 
 int MaxSubsequenceSum( const int A[ ], int N )
 {
+	/*可以在这里判断输入数据的合理性，避免影响算法*/
+	if (N <= 0) {
+		printf("N must be >=1\n");
+		exit(1);
+	}
 	return MaxSubSum( A, 0, N - 1 );
 }
 /* END */
@@ -119,6 +143,10 @@ int MaxSubsequenceSum( const int A[ ], int N )
 
 #ifdef LinearAlgorithm
 /* START: fig2_8.txt */
+
+/**
+ * 时间复杂度为 O(N)
+ */
 int MaxSubsequenceSum( const int A[ ], int N )
 {
 	int ThisSum, MaxSum, j;
@@ -128,9 +156,9 @@ int MaxSubsequenceSum( const int A[ ], int N )
 	{
 		ThisSum += A[ j ];
 
-		if( ThisSum > MaxSum )
+		if( ThisSum > MaxSum ) /* 出现更大的子序列和，记录下来 */
 			MaxSum = ThisSum;
-		else if( ThisSum < 0 )
+		else if( ThisSum < 0 ) /* < 0, 重新开始一个子序列，之前的子序列不能纳入下一个子序列 */
 			ThisSum = 0;
 	}
 	return MaxSum;
