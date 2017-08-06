@@ -77,6 +77,7 @@ int *get_nums_list_in_range_sorted(int nums, int min, int max)
 
 	if ((ptr = check_parameters_and_alloc_momory(nums, min, max)) != NULL) {
 		srandom((unsigned int) time(NULL));
+		ptr[0] = rand_int(min, max);
 		for (i = 0; i < nums;) {
 			tmp = rand_int(min, max);
 			if (find_and_insert(ptr, i+1, tmp) == 1)

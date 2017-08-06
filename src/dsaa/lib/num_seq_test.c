@@ -27,19 +27,20 @@ int main(void)
 {
 	int *ptr;
 	int i, n = 15;
-	int min = 0, max = 100;
+	int min = 1, max = 100;
 	int chk_min, chk_max;
 
 	/*if ((ptr = get_nums_list(n)) != NULL) {*/
 	/*if ((ptr = get_nums_list_in_range(n ,min, max)) != NULL) {*/
-	if ((ptr = get_nums_list_sorted(n)) != NULL) {
-	/*if ((ptr = get_nums_list_in_range_sorted(n ,min, max)) != NULL) {*/
+	/*if ((ptr = get_nums_list_sorted(n)) != NULL) {*/
+	if ((ptr = get_nums_list_in_range_sorted(n ,min, max)) != NULL) {
 		for (i = 0; i < n; i++)
 			printf("%d ", ptr[i]);
 		get_min_max(ptr, n, &chk_min, &chk_max);
 		printf("\nmin=%d, max=%d, is_sorted=%d\n", chk_min, chk_max, is_sorted(ptr, n));
 		free_nums_list(ptr);
+		return EXIT_SUCCESS;
 	}
-	return 0;
+	return EXIT_FAILURE;
 }
 
