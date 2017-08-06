@@ -8,13 +8,14 @@ DEFINES :=
 INCLUDE := -I../include/
 CFLAGS 	:= -g -O3 $(DEFINES) $(INCLUDE)
 
-OBJS_LIB:= time_measure.o
+OBJS_LIB:= time_measure.o num_seq.o search.o sort.o
 SRCS 	:=
 
 TARGET_LIB := libds.a
 
 TIME_MEASURE_TEST := time_measure_test
-TARGET_BIN := $(TIME_MEASURE_TEST)
+NUM_SEQ_TEST := num_seq_test
+TARGET_BIN := $(TIME_MEASURE_TEST) $(NUM_SEQ_TEST)
 
 all : $(TARGET_LIB) $(TARGET_BIN)
 
@@ -23,6 +24,9 @@ $(TARGET_LIB) : $(OBJS_LIB)
 	$(RANLIB) $@
 
 $(TIME_MEASURE_TEST) : time_measure_test.o $(TARGET_LIB)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(LDLIBS)
+
+$(NUM_SEQ_TEST) : num_seq_test.o $(TARGET_LIB)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(LDLIBS)
 
 *.o : ../include/ds.h

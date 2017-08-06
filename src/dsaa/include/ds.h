@@ -1,6 +1,7 @@
 #ifndef __DS_H__
 #define __DS_H__
 #include <stdio.h>
+#include <stdlib.h>
 #include <errno.h>
 
 /**
@@ -86,5 +87,76 @@ tm_t end_clock_ns(void);
  * 结果的单位可能是ms/ns, 取决于一次测试的API
  */
 void finish_and_dump_measure(void);
+
+/**
+ * 生成N个数据的函数库
+ */
+
+/**
+ * 未指定要生成的数据范围时的默认值，有正负值
+ */
+#define RAND_MIN_DEFAULT (-RAND_MAX / 2)
+#define RAND_MAX_DEFAULT (RAND_MAX / 2)
+
+/**
+ * 用于指定生成非负数时的最大值
+ */
+#define RAND_MAX_POSITIVE (RAND_MAX)
+
+/**
+ * 返回nums个随机数, [RAND_MIN_DEFAULT, RAND_MAX_DEFAULT],
+ * 可能有重复数字
+ */
+int *get_nums_list(int nums);
+
+/**
+ * 返回nums个随机数, [min, max],
+ * 设置min=1, max=RAND_MAX, 为自然数的子集
+ * 可能有重复数字
+ */
+int *get_nums_list_in_range(int nums, int min, int max);
+
+/**
+ * 返回nums个按增序排序随机数, [RAND_MIN_DEFAULT, RAND_MAX_DEFAULT],
+ * 没有重复数字
+ */
+int *get_nums_list_sorted(int nums);
+
+/**
+ * 返回nums个按增序排序随机数, [min, max],
+ * 没有重复数字
+ */
+int *get_nums_list_in_range_sorted(int nums, int min, int max);
+
+/**
+ * 释放get_nums_list_*系列函数分配的内存
+ */
+void free_nums_list(int *p);
+
+/**
+ * Search 算法库
+ */
+typedef int ElementType;
+
+#define NotFound (-1)
+
+/**
+ * 二分查找算法
+ * 时间复杂度为 O(logN)
+ * 时间可以大大缩小的版本
+ * 减少了while 内的判断次数
+ * NotFound 当数组中不存在x
+ * 否则返回 在数组中首次出现的下标
+ */
+int binary_search(ElementType x, const ElementType v[], int n);
+
+/**
+ * Sort 算法库
+ */
+
+/**
+ * shell 排序算法
+ */
+void shell_sort(ElementType *a, int n);
 
 #endif
