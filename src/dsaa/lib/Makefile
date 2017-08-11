@@ -13,8 +13,8 @@ SRCS 	:=
 
 TARGET_LIB := libds.a
 
-TIME_MEASURE_TEST := time_measure_test
-NUM_SEQ_TEST := num_seq_test
+TIME_MEASURE_TEST := time_measure_test.out
+NUM_SEQ_TEST := num_seq_test.out
 TARGET_BIN := $(TIME_MEASURE_TEST) $(NUM_SEQ_TEST)
 
 all : $(TARGET_LIB) $(TARGET_BIN)
@@ -34,7 +34,6 @@ $(NUM_SEQ_TEST) : num_seq_test.o $(TARGET_LIB)
 .PHONY : clean db
 clean :
 	$(RM) *.o *.out *.so *.a tags filenametags
-	$(RM) $(TARGET_BIN)
 
 db :
 	./mk_ctags.sh

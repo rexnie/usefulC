@@ -11,7 +11,7 @@ OBJS 	:= check.o
 SRCS 	:=
 DEP_LIB := ../lib/libds.a
 
-TARGET 	:= check
+TARGET 	:= check.out
 
 all : $(TARGET)
 
@@ -23,7 +23,6 @@ $(TARGET) : $(OBJS) $(DEP_LIB)
 .PHONY : clean db
 clean :
 	$(RM) *.o *.out *.so *.a tags filenametags
-	$(RM) $(TARGET)
 
 db :
 	./mk_ctags.sh
