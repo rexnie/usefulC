@@ -14,15 +14,6 @@ void get_min_max(int *a, int n, int *min, int *max)
 	}
 }
 
-int is_sorted(int *a, int n)
-{
-	int i;
-
-	for (i = 1; i < n && a[i - 1] < a[i]; i++)
-		;
-	return i == n ? 1 : 0;
-}
-
 int main(void)
 {
 	int *ptr;

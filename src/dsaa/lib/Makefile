@@ -8,7 +8,7 @@ DEFINES :=
 INCLUDE := -I../include/
 CFLAGS 	:= -g -O3 $(DEFINES) $(INCLUDE)
 
-OBJS_LIB:= time_measure.o num_seq.o search.o sort.o
+OBJS_LIB:= time_measure.o num_seq.o search.o sort.o misc.o
 SRCS 	:=
 
 TARGET_LIB := libds.a

@@ -159,4 +159,13 @@ int binary_search(ElementType x, const ElementType v[], int n);
  */
 void shell_sort(ElementType *a, int n);
 
+/**
+ * misc function
+ */
+
+/**
+ * 返回1 如果数组是排序的
+ * 否则返回0
+ */
+int is_sorted(int *a, int n);
 #endif
