@@ -7,7 +7,7 @@ DEFINES :=
 INCLUDE := -I../include/
 CFLAGS 	:= -ansi -g -O3 $(DEFINES) $(INCLUDE)
 
-OBJS 	:= linked_list.o test.o
+OBJS 	:= test.o
 SRCS 	:=
 DEP_LIB := ../lib/libds.a
 
@@ -18,7 +18,7 @@ all : $(TARGET)
 $(TARGET) : $(OBJS) $(DEP_LIB)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(LDLIBS)
 
-*.o : ../include/ds.h linked_list.h
+*.o : ../include/ds.h
 
 .PHONY : clean db
 clean :

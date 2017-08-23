@@ -7,8 +7,9 @@ LDFLAGS := -L.
 DEFINES :=
 INCLUDE := -I../include/
 CFLAGS 	:= -g -O3 $(DEFINES) $(INCLUDE)
+INC_DIR := ../include
 
-OBJS_LIB:= time_measure.o num_seq.o search.o sort.o misc.o
+OBJS_LIB:= time_measure.o num_seq.o binary_search.o shell_sort.o misc.o linked_list.o
 SRCS 	:=
 
 TARGET_LIB := libds.a
@@ -29,7 +30,13 @@ $(TIME_MEASURE_TEST) : time_measure_test.o $(TARGET_LIB)
 $(NUM_SEQ_TEST) : num_seq_test.o $(TARGET_LIB)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(LDLIBS)
 
-*.o : ../include/ds.h
+*.o : $(INC_DIR)/ds.h
+
+time_measure.o : $(INC_DIR)/time_measure.h
+num_seq.o : $(INC_DIR)/num_seq.h
+binary_search.o : $(INC_DIR)/binary_search.h
+shell_sort.o : $(INC_DIR)/shell_sort.h
+linked_list.o : $(INC_DIR)/linked_list.h
 
 .PHONY : clean db
 clean :

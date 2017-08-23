@@ -1,11 +1,12 @@
 #ifndef _LINKED_LIST_H
 #define _LINKED_LIST_H
-#include "ds.h"
 
 struct Node;
 typedef struct Node *PtrToNode;
 typedef PtrToNode List;
 typedef PtrToNode Position;
+
+typedef int ElementType;
 
 /**
  * 返回一个带头结点的空链表,
