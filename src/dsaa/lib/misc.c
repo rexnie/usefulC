@@ -1,6 +1,6 @@
 #include "ds.h"
 
-int is_sorted(int *a, int n)
+int is_sorted(ElementType *a, int n)
 {
 	int i;
 

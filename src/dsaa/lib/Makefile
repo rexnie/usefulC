@@ -9,7 +9,8 @@ INCLUDE := -I../include/
 CFLAGS 	:= -g -O3 $(DEFINES) $(INCLUDE)
 INC_DIR := ../include
 
-OBJS_LIB:= time_measure.o num_seq.o binary_search.o shell_sort.o misc.o linked_list.o
+OBJS_LIB:= time_measure.o num_seq.o binary_search.o shell_sort.o misc.o linked_list.o \
+	stack_array.o getch.o
 SRCS 	:=
 
 TARGET_LIB := libds.a
@@ -36,7 +37,10 @@ time_measure.o : $(INC_DIR)/time_measure.h
 num_seq.o : $(INC_DIR)/num_seq.h
 binary_search.o : $(INC_DIR)/binary_search.h
 shell_sort.o : $(INC_DIR)/shell_sort.h
+misc.o : $(INC_DIR)/misc.h
 linked_list.o : $(INC_DIR)/linked_list.h
+stack_array.o : $(INC_DIR)/stack_array.h
+getch.o : $(INC_DIR)/getch.h
 
 .PHONY : clean db
 clean :

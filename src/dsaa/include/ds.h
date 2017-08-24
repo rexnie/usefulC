@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <errno.h>
 
+#define NotFound (-1)
+
 /**
  * debug functions
  */
@@ -37,15 +39,8 @@
  * Search 算法库
  */
 
-#define NotFound (-1)
-
 /**
  * 二分查找算法
- * 时间复杂度为 O(logN)
- * 时间可以大大缩小的版本
- * 减少了while 内的判断次数
- * NotFound 当数组中不存在x
- * 否则返回 在数组中首次出现的下标
  */
 #include "binary_search.h"
 
@@ -61,15 +56,21 @@
 /**
  * misc function
  */
-
-/**
- * 返回1 如果数组是排序的
- * 否则返回0
- */
-int is_sorted(int *a, int n);
+#include "misc.h"
 
 /**
  * for linked list ADT
  */
 #include "linked_list.h"
+
+/**
+ * stack ADT, 数组实现
+ */
+#include "stack_array.h"
+
+/**
+ * 带写回功能的从标准输入读入字符函数实现
+ */
+#include "getch.h"
+
 #endif
