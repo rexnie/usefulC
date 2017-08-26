@@ -1,12 +1,13 @@
 #ifndef _LINKED_LIST_H
 #define _LINKED_LIST_H
+#include "ds.h"
 
 struct Node;
 typedef struct Node *PtrToNode;
 typedef PtrToNode List;
 typedef PtrToNode Position;
 
-typedef int ElementType;
+typedef void* ET_List;
 
 /**
  * 返回一个带头结点的空链表,
@@ -30,27 +31,33 @@ int IsLast( Position P, List L );
 /**
  * Return Position of X in L; NULL if not found
  */
-Position Find( ElementType X, List L );
+Position Find( ET_List X, List L );
 
 /**
  * Delete from a list
  */
-void Delete( ElementType X, List L );
+void Delete( ET_List X, List L );
 
 /**
  * If X is not found, then Next field of returned value is NULL
  */
-Position FindPrevious( ElementType X, List L );
+Position FindPrevious( ET_List X, List L );
 
 /**
  * Insert (after legal position P)
  */
-void Insert( ElementType X, List L, Position P );
+void Insert( ET_List X, List L, Position P );
 
 /**
  * Insert after the last node
  */
-void InsertTail(ElementType X, List L);
+void InsertTail(ET_List X, List L);
+
+/**
+ * 删除List中所有元素，回收头结点内存
+ */
+void DisposeList( List L);
+
 /**
  * 删除List中所有元素，保留头结点
  */
@@ -74,11 +81,13 @@ Position Advance( Position P );
 /**
  * 返回linked list中结点P的值
  */
-ElementType Retrieve( Position P );
+ET_List Retrieve( Position P );
 
 /**
  * 打印出linked list中所有元素
+ * 设置func为特定的打印回调函数，
+ * 传递NULL,使用默认打印函数
  */
-void PrintList(List L);
+void PrintList(List L, void (*func)(ET_List));
 
 #endif    /* _LINKED_LIST_H */

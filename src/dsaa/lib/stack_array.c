@@ -7,7 +7,7 @@ struct StackRecord
 {
 	int Capacity;
 	int TopOfStack;
-	ElementType *Array;
+	ET_Stack *Array;
 };
 
 int IsStackEmpty( Stack S )
@@ -29,13 +29,13 @@ Stack CreateStack( int MaxElements )
 
 	S = malloc( sizeof( struct StackRecord ) );
 	if( S == NULL ) {
-		err( "Out of space!!!" );
+		err( "Out of space!!!\n" );
 		return NULL;
 	}
 
-	S->Array = malloc( sizeof( ElementType ) * MaxElements );
+	S->Array = malloc( sizeof( ET_Stack ) * MaxElements );
 	if( S->Array == NULL ) {
-		err( "Out of space!!!" );
+		err( "Out of space!!!\n" );
 		free(S);
 		return NULL;
 	}
@@ -59,27 +59,40 @@ void DisposeStack( Stack S )
 	}
 }
 
-void Push( ElementType X, Stack S )
+void Push( ET_Stack X, Stack S )
 {
 	if( IsFull( S ) )
-		err( "Full stack" );
+		err( "Full stack\n" );
 	else
 		S->Array[ ++S->TopOfStack ] = X;
 }
 
 
-ElementType Top( Stack S )
+ET_Stack Top( Stack S )
 {
 	if( !IsStackEmpty( S ) )
 		return S->Array[ S->TopOfStack ];
-	err( "Empty stack" );
+	err( "Empty stack\n" );
 	return 0;  /* Return value used to avoid warning */
 }
 
-ElementType Pop( Stack S )
+ET_Stack Pop( Stack S )
 {
 	if( !IsStackEmpty( S ) )
 		return S->Array[ S->TopOfStack-- ];
-	err( "Empty stack" );
+	err( "Empty stack\n" );
 	return 0;  /* Return value used to avoid warning */
+}
+
+void DumpStack( Stack S, void (*func)(ET_Stack))
+{
+	int i;
+
+	dbg("\n---TopOfStack=%d\n", S->TopOfStack);
+	for (i = 0; i <= S->TopOfStack; i++)
+		if (func != NULL)
+			func(S->Array[i]);
+		else
+			printf("%d ", S->Array[i]);
+	dbg("\ntotal %d elements in stack\n", i);
 }

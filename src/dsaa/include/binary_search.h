@@ -1,8 +1,6 @@
 #ifndef __BINARY_SEARCH_H__
 #define __BINARY_SEARCH_H__
 
-typedef int ElementType;
-
 /**
  * 二分查找算法
  * 时间复杂度为 O(logN)

@@ -1,7 +1,9 @@
 #ifndef __STACK_ARRAY_H__
 #define __STACK_ARRAY_H__
+#include "ds.h"
 
-typedef int ElementType;
+typedef void* ET_Stack;
+
 struct StackRecord;
 typedef struct StackRecord *Stack;
 
@@ -18,16 +20,22 @@ void DisposeStack( Stack S );
  * 设置Stack为空栈
  */
 void MakeStackEmpty( Stack S );
-void Push( ElementType X, Stack S );
+void Push( ET_Stack X, Stack S );
 
 /**
  * 查看栈顶元素，不弹出栈 
  */
-ElementType Top( Stack S );
+ET_Stack Top( Stack S );
 
 /**
  * 弹出栈顶元素
  */
-ElementType Pop( Stack S );
+ET_Stack Pop( Stack S );
 
+/**
+ * 打印栈中的元素
+ * 设置func为特定的打印回调函数，
+ * 传递NULL,使用默认打印函数
+ */
+void DumpStack( Stack S, void (*func)(ET_Stack));
 #endif

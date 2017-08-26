@@ -2,7 +2,7 @@
 
 int binary_search(ElementType x, const ElementType v[], int n)
 {
-	ElementType low, high, mid;
+	int low, high, mid;
 
 	low = 0;
 	high = n - 1;

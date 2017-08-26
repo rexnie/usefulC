@@ -3,7 +3,7 @@
 /* Place in the interface file */
 struct Node
 {
-	ElementType Element;
+	ET_List Element;
 	Position    Next;
 };
 
@@ -36,7 +36,7 @@ int IsLast( Position P, List L )
 }
 
 /* Return Position of X in L; NULL if not found */
-Position Find( ElementType X, List L )
+Position Find( ET_List X, List L )
 {
 	Position P;
 
@@ -51,7 +51,7 @@ Position Find( ElementType X, List L )
 /* Cell pointed to by P->Next is wiped out */
 /* Assume that the position is legal */
 /* Assume use of a header node */
-void Delete( ElementType X, List L )
+void Delete( ET_List X, List L )
 {
 	Position P, TmpCell;
 
@@ -67,7 +67,7 @@ void Delete( ElementType X, List L )
 
 /* If X is not found, then Next field of returned value is NULL */
 /* Assumes a header */
-Position FindPrevious( ElementType X, List L )
+Position FindPrevious( ET_List X, List L )
 {
 	Position P;
 
@@ -81,7 +81,7 @@ Position FindPrevious( ElementType X, List L )
 /* Insert (after legal position P) */
 /* Header implementation assumed */
 /* Parameter L is unused in this implementation */
-void Insert( ElementType X, List L, Position P )
+void Insert( ET_List X, List L, Position P )
 {
 	Position TmpCell;
 
@@ -94,7 +94,7 @@ void Insert( ElementType X, List L, Position P )
 	P->Next = TmpCell;
 }
 
-void InsertTail(ElementType X, List L)
+void InsertTail(ET_List X, List L)
 {
 	Position TmpCell, p;
 
@@ -110,6 +110,12 @@ void InsertTail(ElementType X, List L)
 		p = p->Next;
 
 	p->Next = TmpCell;
+}
+
+void DisposeList( List L)
+{
+	DeleteList(L);
+	free(L);
 }
 
 void DeleteList( List L )
@@ -141,12 +147,12 @@ Position Advance( Position P )
 	return P->Next;
 }
 
-ElementType Retrieve( Position P )
+ET_List Retrieve( Position P )
 {
 	return P->Element;
 }
 
-void PrintList(List L)
+void PrintList(List L, void (*func)(ET_List))
 {
 	Position p;
 	int i;
@@ -156,7 +162,10 @@ void PrintList(List L)
 	i = 0;
 
 	while(p != NULL) {
-		printf("%d ", p->Element);
+		if (func == NULL)
+			printf("%d ", p->Element);
+		else
+			func(p->Element);
 		p = p->Next;
 		i ++;
 	}

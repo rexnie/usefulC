@@ -6,6 +6,8 @@
 
 #define NotFound (-1)
 
+typedef void* ElementType;
+
 /**
  * debug functions
  */
