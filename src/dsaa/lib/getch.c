@@ -4,7 +4,8 @@
  *  Created on: Jun 12, 2017
  *      Author: niedaocai
  */
-#include "ds.h"
+#include <stdio.h>
+#include "getch.h"
 
 #define BUFSIZE	100
 

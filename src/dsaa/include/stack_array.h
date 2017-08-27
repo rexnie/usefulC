@@ -1,6 +1,5 @@
 #ifndef __STACK_ARRAY_H__
 #define __STACK_ARRAY_H__
-#include "ds.h"
 
 typedef void* ET_Stack;
 

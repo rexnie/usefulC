@@ -1,6 +1,5 @@
 #ifndef _LINKED_LIST_H
 #define _LINKED_LIST_H
-#include "ds.h"
 
 struct Node;
 typedef struct Node *PtrToNode;

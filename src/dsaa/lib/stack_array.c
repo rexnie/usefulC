@@ -1,4 +1,5 @@
 #include "ds.h"
+#include "stack_array.h"
 
 #define EmptyTOS ( -1 )
 #define MinStackSize ( 5 )

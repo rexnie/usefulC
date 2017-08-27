@@ -1,6 +1,7 @@
+#include "binary_search.h"
 #include "ds.h"
 
-int binary_search(ElementType x, const ElementType v[], int n)
+int binary_search(ET_Search x, const ET_Search v[], int n)
 {
 	int low, high, mid;
 

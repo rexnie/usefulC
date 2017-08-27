@@ -6,7 +6,7 @@
 
 #define NotFound (-1)
 
-typedef void* ElementType;
+typedef int ElementType;
 
 /**
  * debug functions
@@ -38,13 +38,18 @@ typedef void* ElementType;
 #include "num_seq.h"
 
 /**
+ * misc function
+ */
+#include "misc.h"
+
+/**
  * Search 算法库
  */
 
 /**
  * 二分查找算法
  */
-#include "binary_search.h"
+/*#include "binary_search.h"*/
 
 /**
  * Sort 算法库
@@ -53,26 +58,21 @@ typedef void* ElementType;
 /**
  * shell 排序算法
  */
-#include "shell_sort.h"
-
-/**
- * misc function
- */
-#include "misc.h"
+/*#include "shell_sort.h"*/
 
 /**
  * for linked list ADT
  */
-#include "linked_list.h"
+/*#include "linked_list.h"*/
 
 /**
  * stack ADT, 数组实现
  */
-#include "stack_array.h"
+/*#include "stack_array.h"*/
 
 /**
  * 带写回功能的从标准输入读入字符函数实现
  */
-#include "getch.h"
+/*#include "getch.h"*/
 
 #endif

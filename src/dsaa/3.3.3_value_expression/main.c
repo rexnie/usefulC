@@ -8,6 +8,8 @@
 #include <string.h>
 #include "ds.h"
 #include "expr.h"
+#include "linked_list.h"
+#include "stack_array.h"
 
 #define MAXLEN 100
 

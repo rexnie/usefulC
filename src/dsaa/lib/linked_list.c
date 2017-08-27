@@ -1,4 +1,5 @@
 #include "ds.h"
+#include "linked_list.h"
 
 /* Place in the interface file */
 struct Node

@@ -1,9 +1,9 @@
-#include "ds.h"
+#include "shell_sort.h"
 
-void shell_sort(ElementType *a, int n)
+void shell_sort(ET_Shell *a, int n)
 {
 	int i, j, increment;
-	ElementType tmp;
+	ET_Shell tmp;
 
 	for (increment = n / 2; increment > 0; increment /= 2)
 		for (i = increment; i < n; i++) {
