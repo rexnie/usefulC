@@ -82,6 +82,8 @@ SearchTree BST_Insert( ET_STree X, SearchTree T )
 SearchTree BST_Delete( ET_STree X, SearchTree T )
 {
 	Position TmpCell;
+	static int last_delete_flag = 0; /*在删除有两个儿子的节点时,
+				0: 删除右子树最小值，1:删除左子树最大值 */
 
 	if( T == NULL )
 		dbg( "Element not found\n" );
@@ -92,9 +94,17 @@ SearchTree BST_Delete( ET_STree X, SearchTree T )
 	else  /* Found element to be deleted */
 		if( T->Left && T->Right ) { /* Two children */
 			/* Replace with smallest in right subtree */
-			TmpCell = BST_FindMin( T->Right );
-			T->Element = TmpCell->Element;
-			T->Right = BST_Delete( T->Element, T->Right );
+			if (!last_delete_flag) {
+				TmpCell = BST_FindMin( T->Right );
+				T->Element = TmpCell->Element;
+				T->Right = BST_Delete( T->Element, T->Right );
+				last_delete_flag = 1;
+			} else if (last_delete_flag == 1) {
+				TmpCell = BST_FindMax( T->Left );
+				T->Element = TmpCell->Element;
+				T->Left = BST_Delete( T->Element, T->Left );
+				last_delete_flag = 0;
+			}
 		}
 		else { /* One or zero children */
 			TmpCell = T;

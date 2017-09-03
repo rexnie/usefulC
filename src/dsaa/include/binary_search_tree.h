@@ -44,6 +44,13 @@ SearchTree BST_Delete( ET_STree X, SearchTree T );
  */
 ET_STree BST_Retrieve( Position P );
 
+/**
+ * 中序遍历二叉查找树
+ */
 void BST_PrintTreeInorder(SearchTree T);
+
+/**
+ * 打印二叉查找树的结构信息，可由这个结构信息方便地画出树
+ */
 void BST_DumpDetails(SearchTree T);
 #endif  /* __BINARY_SEARCH_TREE_H__*/

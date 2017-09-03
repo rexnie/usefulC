@@ -57,6 +57,9 @@ int main(void)
 	dbg("%d\n", BST_Retrieve(pos));
 
 	BST_DumpDetails(T);
+	pos = BST_Delete(75,T);
+	BST_DumpDetails(T);
 	BST_PrintTreeInorder(T);
+	printf("\n");
 	return EXIT_SUCCESS;
 }
