@@ -56,6 +56,28 @@ Position BST_FindMax( SearchTree T )
 	return T;
 }
 
+static Position BST_FindMin2(Position *parent, SearchTree T)
+{
+	*parent = T;
+	if (T != NULL)
+		while (T->Left != NULL) {
+			*parent = T;
+			T = T->Left;
+		}
+	return T;
+}
+
+static Position BST_FindMax2( Position *parent, SearchTree T )
+{
+	*parent = T;
+	if( T != NULL )
+		while( T->Right != NULL ) {
+			*parent = T;
+			T = T->Right;
+		}
+
+	return T;
+}
 SearchTree BST_Insert( ET_STree X, SearchTree T )
 {
 	if( T == NULL )
@@ -84,6 +106,7 @@ SearchTree BST_Delete( ET_STree X, SearchTree T )
 	Position TmpCell;
 	static int last_delete_flag = 0; /*在删除有两个儿子的节点时,
 				0: 删除右子树最小值，1:删除左子树最大值 */
+	Position Parent;
 
 	if( T == NULL )
 		dbg( "Element not found\n" );
@@ -95,14 +118,26 @@ SearchTree BST_Delete( ET_STree X, SearchTree T )
 		if( T->Left && T->Right ) { /* Two children */
 			/* Replace with smallest in right subtree */
 			if (!last_delete_flag) {
-				TmpCell = BST_FindMin( T->Right );
+				TmpCell = BST_FindMin2(&Parent, T->Right );
+				dbg("TmpCell=%d,Parent=%d\n", TmpCell->Element, Parent->Element);
 				T->Element = TmpCell->Element;
-				T->Right = BST_Delete( T->Element, T->Right );
+				if (T->Right == Parent)
+					T->Right = BST_Delete(T->Element, T->Right);
+				else if (Parent->Left == TmpCell)
+					Parent->Left = BST_Delete( T->Element, Parent->Left);
+				else
+					Parent->Right = BST_Delete( T->Element, Parent->Right);
 				last_delete_flag = 1;
 			} else if (last_delete_flag == 1) {
-				TmpCell = BST_FindMax( T->Left );
+				TmpCell = BST_FindMax2(&Parent, T->Left );
+				dbg("TmpCell=%d,Parent=%d\n", TmpCell->Element, Parent->Element);
 				T->Element = TmpCell->Element;
-				T->Left = BST_Delete( T->Element, T->Left );
+				if (T->Left == Parent)
+					T->Left = BST_Delete( T->Element, T->Left);
+				else if (Parent->Left == TmpCell)
+					Parent->Left = BST_Delete( T->Element, Parent->Left);
+				else
+					Parent->Right = BST_Delete( T->Element, Parent->Right);
 				last_delete_flag = 0;
 			}
 		}
