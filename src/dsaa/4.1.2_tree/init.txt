@@ -1,0 +1,40 @@
+mkdir /;
+mkdir usr;cd usr
+mkdir mark
+mkdir alex
+mkdir bill
+cd mark
+mkdir book
+mkdir course
+touch junk.c 6
+cd book
+touch ch1.r 3
+touch ch2.r 2
+touch ch3.r 4
+cd /usr/mark/course/;mkdir cop3530;cd cop3530
+mkdir fall96
+mkdir spr97
+mkdir sum97
+touch fall96/syl.r
+touch spr97/syl.r 5
+touch sum97/syl.r 2
+cd /usr/alex
+touch junk.c 8
+cd /usr/bill
+mkdir work
+mkdir course
+mkdir course/cop3212
+mkdir course/cop3212/fall96
+mkdir course/cop3212/fall97
+cd course/cop3212/fall96
+touch grades 3
+touch prog1.r 4
+touch prog2.r 1
+cd /usr/bill/course/cop3212/fall97
+touch prog2.r 2
+touch prog1.r 7
+touch grades 9
+
+tree
+
+

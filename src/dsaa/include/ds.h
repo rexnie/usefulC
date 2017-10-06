@@ -2,6 +2,7 @@
 #define __DS_H__
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <errno.h>
 
 #define NotFound (-1)
