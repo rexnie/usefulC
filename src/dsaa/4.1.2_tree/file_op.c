@@ -457,3 +457,18 @@ void T_DestroyTree(void)
 	T_MakeEmpty(T_GetRootNode());
 	T_ClearAfterDeleteRoot();
 }
+
+void T_PreOrderTravelOp(void)
+{
+	T_PreOrderTravelNonRecursion(T_GetRootNode());
+}
+
+void T_PostOrderTravelOp(void)
+{
+	T_PostOrderTravelNonRecursion(T_GetRootNode());
+}
+
+void T_PostOrderTravelWithSizeOp(void)
+{
+	T_PostOrderTravelWithSizeNonRecursion(T_GetRootNode());
+}

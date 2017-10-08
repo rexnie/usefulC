@@ -85,6 +85,11 @@ ET_Stack Pop( Stack S )
 	return 0;  /* Return value used to avoid warning */
 }
 
+int NumOfElement( Stack S)
+{
+	return S->TopOfStack + 1;
+}
+
 void DumpStack( Stack S, void (*func)(ET_Stack))
 {
 	int i;

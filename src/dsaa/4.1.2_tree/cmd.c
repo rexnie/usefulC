@@ -15,7 +15,10 @@ static cmd_tbl_t fs_cmd[] = {
 	{ "ls", 1, do_ls, "ls\t\tlist files under $PWD" },
 	{ "ll", 1, do_ll, "ll\t\tlist file w/ fsize under $PWD" },
 	{ "tree", 1, do_tree, "tree\t\tsame as linux tree utility" },
+	{ "preorder", 1, do_preorder_non_recursion, "preorder\ttravel the tree in non-recursion preorder" },
+	{ "postorder", 1, do_postorder_non_recursion, "postorder\ttravel the tree in non-recursion postorder" },
 	{ "du", 1, do_du, "du\t\tsame as linux du utility" },
+	{ "du2", 1, do_du2, "du2\t\tthe same as du, but in non-recursion postorder" },
 	{ "destroy", 1, do_destroy, "destroy\t\tdestroy tree, and free all nodes memory" },
 	{ "quit", 1, do_quit, "quit\t\tquit the program" },
 	{ "exit", 1, do_quit, "exit\t\tquit the program" },
@@ -85,9 +88,27 @@ int do_tree(struct cmd_tbl_s *tbl, int argc, char *argv[])
 	return 0;
 }
 
+int do_preorder_non_recursion(struct cmd_tbl_s *tbl, int argc, char *argv[])
+{
+	T_PreOrderTravelOp();
+	return 0;
+}
+
+int do_postorder_non_recursion(struct cmd_tbl_s *tbl, int argc, char *argv[])
+{
+	T_PostOrderTravelOp();
+	return 0;
+}
+
 int do_du(struct cmd_tbl_s *tbl, int argc, char *argv[])
 {
 	T_DumpTreeWithSize();
+	return 0;
+}
+
+int do_du2(struct cmd_tbl_s *tbl, int argc, char *argv[])
+{
+	T_PostOrderTravelWithSizeOp();
 	return 0;
 }
 

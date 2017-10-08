@@ -1,5 +1,7 @@
 #include "tree.h"
 #include "ds.h"
+#include "stack_array.h"
+#include "stack.h"
 
 struct TreeNode {
 	char *name;
@@ -270,6 +272,13 @@ static void PrintName(Tree p, int depth)
 		printf("%s\n", p->name);
 }
 
+/**
+ * 列出当前目录下文件
+ * root: [in] 当前目录
+ * need_size: [in] 是否需要打印文件的大小
+ *           need_size==0 <===> linux ls
+ *           need_size==1 <===> linux ll
+ */
 void ListCurDir(Tree root, int need_size)
 {
 	if (root != NULL) {
@@ -291,8 +300,9 @@ void ListCurDir(Tree root, int need_size)
 }
 
 /**
- * 打印目录树
- * TODO: 是否可以非递归实现
+ * 递归实现打印目录树, 类似linux tree
+ * 内部实现
+ * depth: [in] 是一个内部变量,记录当前目录深度,方便格式化输出
  */
 static void ListDir(Tree root, int depth)
 {
@@ -308,6 +318,10 @@ static void ListDir(Tree root, int depth)
 	}
 }
 
+/**
+ * 递归实现打印目录树, 类似linux tree
+ * 外部接口
+ */
 void T_ListDir(Tree root)
 {
 	dbg("List tree nodes:\n");
@@ -325,6 +339,9 @@ static void PrintNameSize(Tree p, int depth, int sz)
 		printf("%s   %d\n", p->name, sz);
 }
 
+/**
+ * 递归求解root节点的文件大小，包含子目录/子文件
+ */
 int T_FileSize(Tree root)
 {
 	int size = 0;
@@ -343,6 +360,10 @@ int T_FileSize(Tree root)
 	return size;
 }
 
+/**
+ * 递归实现统计目录大小, 类似linux du,
+ * 内部接口
+ */
 static void ListDirWithSize(Tree root, int depth)
 {
 	if (root != NULL) {
@@ -357,8 +378,111 @@ static void ListDirWithSize(Tree root, int depth)
 	}
 }
 
+/**
+ * 递归实现统计目录大小, 类似linux du,
+ * 外部接口
+ */
 int T_ListDirWithSize(Tree root)
 {
 	dbg("List tree nodes with size:\n");
 	ListDirWithSize(root, 0);
+}
+
+/**
+ * 非递归实现先序遍历树
+ */
+void T_PreOrderTravelNonRecursion(Tree root)
+{
+	Stack stack = NULL;
+	if ((stack = CreateStack(MAX_DEPTH)) == NULL) {
+		err("create stack err\n");
+		return;
+	}
+start:
+	while(root != NULL) {
+		PrintName(root, NumOfElement(stack));
+		if (root->type == FT_DIR) {
+			Push((void*)root, stack);
+			root = root->firstChild;
+		} else if (root->type == FT_FILE)
+			root = root->nextSibling;
+	}
+
+	if (!IsStackEmpty(stack)) {
+		root = Pop(stack);
+		root = root->nextSibling;
+		goto start;
+	}
+	DisposeStack(stack);
+}
+
+/**
+ * 非递归实现后序遍历树
+ */
+void T_PostOrderTravelNonRecursion(Tree root)
+{
+	Stack stack = NULL;
+	if ((stack = CreateStack(MAX_DEPTH)) == NULL) {
+		err("create stack err\n");
+		return;
+	}
+start:
+	while(root != NULL) {
+		if (root->type == FT_DIR) {
+			Push((void*)root, stack);
+			root = root->firstChild;
+		} else if (root->type == FT_FILE) {
+			PrintName(root, NumOfElement(stack));
+			root = root->nextSibling;
+		}
+	}
+
+	if (!IsStackEmpty(stack)) {
+		root = Pop(stack);
+		PrintName(root, NumOfElement(stack));
+		root = root->nextSibling;
+		goto start;
+	}
+	DisposeStack(stack);
+}
+
+/**
+ * 非递归实现后序遍历树, 同时统计文件大小
+ */
+void T_PostOrderTravelWithSizeNonRecursion(Tree root)
+{
+	int total = 0;
+	Stack stack = NULL;
+	if ((stack = CreateStack(MAX_DEPTH)) == NULL) {
+		err("create stack err\n");
+		return;
+	}
+start:
+	while(root != NULL) {
+		if (root->type == FT_DIR) {
+			Push((void*)root, stack); /* node itself */
+			push_stack(total); /* size */
+			total = 0;
+			root = root->firstChild;
+		} else if (root->type == FT_FILE) {
+			PrintNameSize(root, NumOfElement(stack), root->size);
+			total += root->size;
+			root = root->nextSibling;
+		}
+	}
+
+	if (!IsStackEmpty(stack)) {
+		root = Pop(stack);
+		total += root->size;
+		PrintNameSize(root, NumOfElement(stack), total);
+		if (!is_stack_empty()) {
+			total += pop_stack();
+			root = root->nextSibling;
+			goto start;
+		} else {
+			err("two stack should the same size\n");
+			clear_stack();
+		}
+	}
+	DisposeStack(stack);
 }

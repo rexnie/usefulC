@@ -31,6 +31,10 @@ ET_Stack Top( Stack S );
  */
 ET_Stack Pop( Stack S );
 
+/** 返回栈中元素的个数
+ */
+int NumOfElement( Stack S);
+
 /**
  * 打印栈中的元素
  * 设置func为特定的打印回调函数，

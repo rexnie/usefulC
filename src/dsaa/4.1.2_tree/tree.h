@@ -21,6 +21,9 @@ extern int T_IsEmptyDir(Tree node);
 extern void T_DumpNode(Tree node);
 extern void ListCurDir(Tree root, int need_size);
 extern void T_ListDir(Tree root);
+extern void T_PreOrderTravelNonRecursion(Tree root);
+extern void T_PostOrderTravelNonRecursion(Tree root);
+extern void T_PostOrderTravelWithSizeNonRecursion(Tree root);
 
 /* defined in file_op.c */
 extern void PrintPathFname(char *fn, char *path[], char *fname);
@@ -35,6 +38,9 @@ extern void T_ShowCwdFilesWithSize(void);
 extern void T_DumpTree(void);
 extern void T_DumpTreeWithSize(void);
 extern void T_DestroyTree(void);
+extern void T_PreOrderTravelOp(void);
+extern void T_PostOrderTravelOp(void);
+extern void T_PostOrderTravelWithSizeOp(void);
 
 /**
  * 加入函数的声明
