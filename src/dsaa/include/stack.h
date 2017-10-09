@@ -6,11 +6,11 @@
  */
 #include "ds.h"
 
-typedef int ET;
+typedef double ET_Stack2;
 #define MAXVAL	100	/* 栈最大深度 */
 
 static int _sp = 0;
-static ET _val[MAXVAL];
+static ET_Stack2 _val[MAXVAL];
 
 int is_stack_empty(void)
 {
@@ -26,21 +26,21 @@ void dump_stack(void) {
 	int i;
 	dbg("---dump_stack: _sp=%d\n", _sp);
 	for (i = 0; i < _sp; i++)
-		printf("%d ", _val[i]);
+		printf("%g ", _val[i]);
 	printf("\n");
 }
 
-void push_stack(ET v) {
+void push_stack(ET_Stack2 v) {
 	if (_sp < MAXVAL)
 		_val[_sp++] = v;
 	else {
-		err("stack full, can't push %d\n", v);
+		err("stack full, can't push %g\n", v);
 		dump_stack();
 		exit(-1);
 	}
 }
 
-ET pop_stack(void) {
+ET_Stack2 pop_stack(void) {
 	if (_sp > 0)
 		return _val[--_sp];
 	else {
@@ -50,7 +50,7 @@ ET pop_stack(void) {
 	}
 }
 
-ET peek_top(void) {
+ET_Stack2 peek_top(void) {
 	if (_sp > 0)
 		return _val[_sp - 1];
 
@@ -60,7 +60,7 @@ ET peek_top(void) {
 
 void switch_top2(void) {
 	if (_sp >= 2) {
-		ET t;
+		ET_Stack2 t;
 		t = _val[_sp - 1];
 		_val[_sp - 1] = _val[_sp - 2];
 		_val[_sp - 2] = t;
