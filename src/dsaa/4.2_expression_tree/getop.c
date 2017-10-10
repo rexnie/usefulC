@@ -31,7 +31,7 @@ int getop(char **p, char out_str[]) {
 	int i = 0;
 	char *n;
 
-	dbg("*p=%s\n", *p);
+	/*dbg("*p=%s\n", *p);*/
 	if (**p == '\0')
 		return '\0';
 
@@ -68,6 +68,6 @@ int getop(char **p, char out_str[]) {
 
 	out_str[i] = '\0';
 
-	dbg("*p=%s\n", *p);
+	/*dbg("*p=%s\n", *p);*/
 	return TYPE_NUM;
 }

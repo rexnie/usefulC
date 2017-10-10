@@ -12,8 +12,6 @@
 #include "stack.h"
 #include "BinTree.h"
 
-#define MAXLEN 100
-
 struct precedence_associativity {
 	int op; /* 操作符 */
 	int pre; /* 优先级,数字越低，优先级越高 */
@@ -84,7 +82,7 @@ List parse_infix_and_2_postfix(char *infix_exp)
 {
 	int type, pre_ppa;
 	char *p;
-	char out[MAXLEN];
+	char out[MAX_STRING_LEN];
 	pnode_expr pnode, top;
 	Stack stack_op = NULL;
 	ppre_ass ppa, ppa_top;
@@ -95,7 +93,7 @@ List parse_infix_and_2_postfix(char *infix_exp)
 		return NULL;
 	}
 
-	if ((stack_op = CreateStack(MAXLEN)) == NULL) {
+	if ((stack_op = CreateStack(MAX_NODES_NUM)) == NULL) {
 		err("CreateStack err\n");
 		goto err_quit;
 	}
@@ -264,7 +262,7 @@ BinTree build_expr_tree(List L)
 	Stack stack = NULL;
 	BinTree l, r, t;
 
-	if ((stack = CreateStack(MAXLEN)) == NULL) {
+	if ((stack = CreateStack(MAX_NODES_NUM)) == NULL) {
 		err("CreateStack err\n");
 		return NULL;
 	}
@@ -362,12 +360,12 @@ void preprocess_infix_str(char *str)
 
 /* 逆波兰计算器,即求解后缀表达式 */
 int main(void) {
-	char infix_input[MAXLEN] = { 0, };
+	char infix_input[MAX_STRING_LEN] = { 0, };
 	List head_postfix = NULL;
 	BinTree tree = NULL;
 
 #if 0
-	if (fgets(infix_input, MAXLEN, stdin) == NULL) {
+	if (fgets(infix_input, MAX_STRING_LEN, stdin) == NULL) {
 		err("fgets error\n");
 		return EXIT_FAILURE;
 	}
@@ -390,7 +388,24 @@ int main(void) {
 
 	tree = build_expr_tree(head_postfix);
 
+	dbg("binary tree preorder travel:\n");
 	BinT_TravelPreorder(tree, dump_stack_element);
+	printf("\n");
+
+	dbg("binary tree preorder travel in non-recursion:\n");
+	BinT_TravelPreorder2(tree, dump_stack_element);
+	printf("\n");
+
+	dbg("binary tree inorder travel:\n");
+	BinT_TravelInorder(tree, dump_stack_element);
+	printf("\n");
+
+	dbg("binary tree inorder travel in non-recursion:\n");
+	BinT_TravelInorder2(tree, dump_stack_element);
+	printf("\n");
+
+	dbg("binary tree postorder travel:\n");
+	BinT_TravelPostorder(tree, dump_stack_element);
 	printf("\n");
 
 	DisposeList(head_postfix);
