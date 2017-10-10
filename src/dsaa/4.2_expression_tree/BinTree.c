@@ -1,6 +1,7 @@
 #include "ds.h"
 #include "BinTree.h"
 #include "stack_array.h"
+#include "stack.h"
 
 #define MAX_NODES_NUM  100
 
@@ -120,6 +121,46 @@ void BinT_TravelPostorder(BinTree root, void (*func)(ET_BinTree))
 
 void BinT_TravelPostorder2(BinTree root, void (*func)(ET_BinTree))
 {
+	Stack stack = NULL;
+	int flag;
+	if ((stack = CreateStack(MAX_NODES_NUM)) == NULL) {
+		err("CreateStack err\n");
+		return;
+	}
+#define FL_FIRST 1
+#define FL_CLR 0
+
+travel_left:
+	while (root != NULL) {
+		Push((void*) root, stack);
+		push_stack(FL_FIRST);
+		root = root->Left;
+	}
+
+pop_stk:
+	if (!is_stack_empty()) {
+		if (IsStackEmpty(stack)) {
+			err("two stack should the same size\n");
+			DisposeStack(stack);
+			return;
+		}
+		if ((int) peek_top() == FL_FIRST) {
+			pop_stack();
+			push_stack(FL_CLR);
+
+			root = (BinTree) Top(stack);
+			root = root->Right;
+			goto travel_left;
+		} else {
+			pop_stack();
+			root = (BinTree) Pop(stack);
+			BinT_PrintNode(root, func);
+			root = NULL;
+			goto pop_stk;
+		}
+	}
+
+	DisposeStack(stack);
 }
 
 void BinT_TravelLevelorder(BinTree root, void (*func)(ET_BinTree))
