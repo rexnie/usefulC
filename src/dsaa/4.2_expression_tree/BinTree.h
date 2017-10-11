@@ -38,9 +38,14 @@ void BinT_TravelInorder2(BinTree root, void (*func)(ET_BinTree));
 void BinT_TravelPostorder(BinTree root, void (*func)(ET_BinTree));
 
 /**
- * 后序遍历二叉树, 非递归实现
+ * 后序遍历二叉树, 非递归实现, 方法1
  */
 void BinT_TravelPostorder2(BinTree root, void (*func)(ET_BinTree));
+
+/**
+ * 后序遍历二叉树, 非递归实现, 方法2
+ */
+void BinT_TravelPostorder3(BinTree root, void (*func)(ET_BinTree));
 
 /**
  * 层序遍历二叉树, 非递归实现

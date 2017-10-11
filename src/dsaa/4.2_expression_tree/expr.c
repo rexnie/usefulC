@@ -412,6 +412,10 @@ int main(void) {
 	BinT_TravelPostorder2(tree, dump_stack_element);
 	printf("\n");
 
+	dbg("binary tree postorder travel 2 in non-recursion:\n");
+	BinT_TravelPostorder3(tree, dump_stack_element);
+	printf("\n");
+
 	DisposeList(head_postfix);
 
 	return EXIT_SUCCESS;
