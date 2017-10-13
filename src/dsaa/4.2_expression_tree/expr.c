@@ -320,6 +320,9 @@ BinTree build_expr_tree(List L)
 					Push((void*) t, stack);
 				break;
 			case '$': /* 正号，一元运算符 */
+				r = (BinTree) Pop(stack);
+				if ((t = BinT_BuildTree((void*) pnode, NULL, r)) != NULL)
+					Push((void*) t, stack);
 				break;
 			default:
 				err("unkown op = %c\n", op);
