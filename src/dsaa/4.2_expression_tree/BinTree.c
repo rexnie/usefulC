@@ -1,7 +1,8 @@
 #include "ds.h"
 #include "BinTree.h"
-#include "stack_array.h"
-#include "stack.h"
+#include "stack_array.h" /* modify ET_Stack to void* */
+#include "stack.h" /* modify ET_Stack2 to double */
+#include "queue.h" /* modify ET_Queue to void* */
 
 #define MAX_NODES_NUM  100
 
@@ -256,6 +257,58 @@ pop_stk:
 	DisposeStack(stack);
 }
 
+void BinT_PrintNodeLevel(BinTree root, void (*func)(ET_BinTree), int l)
+{
+	static int level = 0;
+	if (l != level) {
+		printf("\nlevel=%d: ", l);
+		level = l;
+	}
+
+	if (root != NULL)
+		if (func != NULL)
+			func(root->Element);
+		else
+			printf("%ld ", (long) root->Element);
+}
+
 void BinT_TravelLevelorder(BinTree root, void (*func)(ET_BinTree))
 {
+	int level_num = 1;
+	int cur_level_cnt = 0;
+	int next_level_cnt = 0;
+	Queue q;
+
+	if (root == NULL) {
+		dbg("it's null tree\n");
+		return;
+	} else {
+		if((q = Q_CreateQueue(MAX_NODES_NUM)) == NULL) {
+			err("CreateQueue err\n");
+			return;
+		}
+
+		Q_Enqueue((void*) root, q);
+		cur_level_cnt = 1;
+	}
+
+	while (!Q_IsEmpty(q)) {
+		root = (BinTree) Q_Dequeue(q);
+		BinT_PrintNodeLevel(root, func, level_num);
+
+		if (root->Left != NULL) {
+			Q_Enqueue((void*) root->Left, q);
+			next_level_cnt++;
+		}
+		if (root->Right != NULL) {
+			Q_Enqueue((void*) root->Right, q);
+			next_level_cnt++;
+		}
+		if (--cur_level_cnt == 0) {
+			cur_level_cnt = next_level_cnt;
+			level_num ++;
+			next_level_cnt = 0;
+		}
+	}
+	Q_DisposeQueue(q);
 }
