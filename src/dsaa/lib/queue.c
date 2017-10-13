@@ -12,24 +12,24 @@ struct QueueRecord
 	ET_Queue *Array;
 };
 
-static int Succ( int Value, Queue Q )
+static int Q_Succ( int Value, Queue Q )
 {
 	if( ++Value == Q->Capacity )
 		Value = 0;
 	return Value;
 }
 
-int IsEmpty( Queue Q )
+int Q_IsEmpty( Queue Q )
 {
-	return Succ(Q->Rear, Q) == Q->Front ? 1 : 0;
+	return Q_Succ(Q->Rear, Q) == Q->Front ? 1 : 0;
 }
 
-int IsFull( Queue Q )
+int Q_IsFull( Queue Q )
 {
 	return Q->Size == Q->Capacity;
 }
 
-Queue CreateQueue( int MaxElements )
+Queue Q_CreateQueue( int MaxElements )
 {
 	Queue Q;
 
@@ -49,19 +49,19 @@ Queue CreateQueue( int MaxElements )
 		return NULL;
 	}
 	Q->Capacity = MaxElements;
-	MakeEmpty( Q );
+	Q_MakeEmpty( Q );
 
 	return Q;
 }
 
-void MakeEmpty( Queue Q )
+void Q_MakeEmpty( Queue Q )
 {
 	Q->Size = 0;
 	Q->Front = 1;
 	Q->Rear = 0;
 }
 
-void DisposeQueue( Queue Q )
+void Q_DisposeQueue( Queue Q )
 {
 	if( Q != NULL )
 	{
@@ -70,37 +70,37 @@ void DisposeQueue( Queue Q )
 	}
 }
 
-void Enqueue( ET_Queue X, Queue Q )
+void Q_Enqueue( ET_Queue X, Queue Q )
 {
-	if( IsFull( Q ) )
+	if( Q_IsFull( Q ) )
 		err( "Full queue\n" );
 	else
 	{
 		Q->Size++;
-		Q->Rear = Succ( Q->Rear, Q );
+		Q->Rear = Q_Succ( Q->Rear, Q );
 		Q->Array[ Q->Rear ] = X;
 	}
 }
 
-ET_Queue Front( Queue Q )
+ET_Queue Q_Front( Queue Q )
 {
-	if( !IsEmpty( Q ) )
+	if( !Q_IsEmpty( Q ) )
 		return Q->Array[ Q->Front ];
 	err( "Empty queue\n" );
 	return 0;  /* Return value used to avoid warning */
 }
 
-ET_Queue Dequeue( Queue Q )
+ET_Queue Q_Dequeue( Queue Q )
 {
 	ET_Queue X = 0;
 
-	if( IsEmpty( Q ) )
+	if( Q_IsEmpty( Q ) )
 		err( "Empty queue\n" );
 	else
 	{
 		Q->Size--;
 		X = Q->Array[ Q->Front ];
-		Q->Front = Succ( Q->Front, Q );
+		Q->Front = Q_Succ( Q->Front, Q );
 	}
 	return X;
 }
