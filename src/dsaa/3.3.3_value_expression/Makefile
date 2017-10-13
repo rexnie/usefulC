@@ -7,7 +7,7 @@ DEFINES :=
 INCLUDE := -I../include/
 CFLAGS 	:= -ansi -g -O3 $(DEFINES) $(INCLUDE)
 
-OBJS 	:= main.o getop.o stack.o
+OBJS 	:= main.o getop.o
 SRCS 	:=
 DEP_LIB := ../lib/libds.a
 

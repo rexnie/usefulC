@@ -57,11 +57,14 @@ int getop(char **p, char out_str[]) {
 			out_str[i++] = **p;
 			(*p)++;
 		}
-	if (**p == '.') /* 收集小数部分 */
+	if (**p == '.') { /* 收集小数部分 */
+		out_str[i++] = **p; /* 小数点 */
+		(*p)++;
 		while (isdigit(**p)) {
 			out_str[i++] = **p;
 			(*p)++;
 		}
+	}
 
 	out_str[i] = '\0';
 
