@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include "ds.h"
+#include "time_measure.h"
 
 int main(void)
 {

@@ -17,6 +17,11 @@
 #define RAND_MAX_POSITIVE (RAND_MAX)
 
 /**
+ * 生成一个随机数，[s, e]
+ */
+int rand_int(int s, int e);
+
+/**
  * 返回nums个随机数, [RAND_MIN_DEFAULT, RAND_MAX_DEFAULT],
  * 可能有重复数字
  */

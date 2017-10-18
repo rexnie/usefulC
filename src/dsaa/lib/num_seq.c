@@ -1,7 +1,6 @@
-#include <stdlib.h>
 #include "ds.h"
 
-static int rand_int(int s, int e)
+int rand_int(int s, int e)
 {
 	return random() % (e - s + 1) + s;
 }
@@ -54,7 +53,6 @@ int find_and_insert(int *a, int n, int val)
 {
 	int i;
 	int idx;
-
 	if ((idx = binary_search(val, a, n)) < 0) { /* not find it */
 		for (i = n - 1; i >= 0 && a[i] > val; i--)
 			a[i+1] = a[i];
@@ -78,9 +76,9 @@ int *get_nums_list_in_range_sorted(int nums, int min, int max)
 	if ((ptr = check_parameters_and_alloc_momory(nums, min, max)) != NULL) {
 		srandom((unsigned int) time(NULL));
 		ptr[0] = rand_int(min, max);
-		for (i = 0; i < nums;) {
+		for (i = 1; i < nums;) {
 			tmp = rand_int(min, max);
-			if (find_and_insert(ptr, i+1, tmp) == 1)
+			if (find_and_insert(ptr, i, tmp) == 1)
 				i++;
 		}
 	}

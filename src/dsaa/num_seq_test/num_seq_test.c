@@ -1,7 +1,7 @@
 #include "ds.h"
 #include <limits.h>
 
-void get_min_max(int *a, int n, int *min, int *max)
+static void get_min_max(int *a, int n, int *min, int *max)
 {
 	int i;
 
@@ -17,7 +17,7 @@ void get_min_max(int *a, int n, int *min, int *max)
 int main(void)
 {
 	int *ptr;
-	int i, n = 15;
+	int i, n = 30;
 	int min = 1, max = 100;
 	int chk_min, chk_max;
 
@@ -28,10 +28,9 @@ int main(void)
 		for (i = 0; i < n; i++)
 			printf("%d ", ptr[i]);
 		get_min_max(ptr, n, &chk_min, &chk_max);
-		printf("\nmin=%d, max=%d, is_sorted=%d\n", chk_min, chk_max, is_sorted(ptr, n));
+		printf("\nn=%d, min=%d, max=%d, is_sorted_no_equal=%d\n",n,  chk_min, chk_max,is_sorted_no_equal(ptr, n));
 		free_nums_list(ptr);
 		return EXIT_SUCCESS;
 	}
 	return EXIT_FAILURE;
 }
-

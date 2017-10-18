@@ -15,21 +15,13 @@ SRCS 	:=
 
 TARGET_LIB := libds.a
 
-TIME_MEASURE_TEST := time_measure_test.out
-NUM_SEQ_TEST := num_seq_test.out
-TARGET_BIN := $(TIME_MEASURE_TEST) $(NUM_SEQ_TEST)
+TARGET_BIN :=
 
 all : $(TARGET_LIB) $(TARGET_BIN)
 
 $(TARGET_LIB) : $(OBJS_LIB)
 	$(AR) rv $@ $?
 	$(RANLIB) $@
-
-$(TIME_MEASURE_TEST) : time_measure_test.o $(TARGET_LIB)
-	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(LDLIBS)
-
-$(NUM_SEQ_TEST) : num_seq_test.o $(TARGET_LIB)
-	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(LDLIBS)
 
 *.o : $(INC_DIR)/ds.h
 
