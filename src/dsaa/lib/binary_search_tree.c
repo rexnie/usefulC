@@ -1,5 +1,8 @@
 #include "binary_search_tree.h"
 #include "ds.h"
+#include "stack_array.h"
+
+#define MAX_NODES_NUM  1000
 
 struct TreeNode
 {
@@ -109,36 +112,38 @@ SearchTree BST_Delete( ET_STree X, SearchTree T )
 	Position Parent;
 
 	if( T == NULL )
-		dbg( "Element not found\n" );
+		dbg( "delete X=%d not found\n", X );
 	else if( X < T->Element )  /* Go left */
 		T->Left = BST_Delete( X, T->Left );
 	else if( X > T->Element )  /* Go right */
 		T->Right = BST_Delete( X, T->Right );
 	else  /* Found element to be deleted */
 		if( T->Left && T->Right ) { /* Two children */
-			/* Replace with smallest in right subtree */
-			if (!last_delete_flag) {
-				TmpCell = BST_FindMin2(&Parent, T->Right );
-				dbg("TmpCell=%d,Parent=%d\n", TmpCell->Element, Parent->Element);
-				T->Element = TmpCell->Element;
-				if (T->Right == Parent)
-					T->Right = BST_Delete(T->Element, T->Right);
-				else if (Parent->Left == TmpCell)
-					Parent->Left = BST_Delete( T->Element, Parent->Left);
-				else
-					Parent->Right = BST_Delete( T->Element, Parent->Right);
+			/* 轮流使左子树最大值/右子树最小值上升一层，而不是一直上升右子树最小值，
+			 * 在一定程度避免出现不平衡
+			 */
+			if (!last_delete_flag) { /* 右子树最小值上升 */
 				last_delete_flag = 1;
-			} else if (last_delete_flag == 1) {
-				TmpCell = BST_FindMax2(&Parent, T->Left );
-				dbg("TmpCell=%d,Parent=%d\n", TmpCell->Element, Parent->Element);
+				TmpCell = BST_FindMin2(&Parent, T->Right );
+				dbg("up right:T=%d,Parent=%d\n", T->Element, Parent->Element);
 				T->Element = TmpCell->Element;
-				if (T->Left == Parent)
-					T->Left = BST_Delete( T->Element, T->Left);
+				if (T->Right == Parent) /* 可能删除parent自身,所以根从T->Right开始 */
+					T->Right = BST_Delete(TmpCell->Element, T->Right);
 				else if (Parent->Left == TmpCell)
-					Parent->Left = BST_Delete( T->Element, Parent->Left);
+					Parent->Left = BST_Delete( TmpCell->Element, Parent->Left);
 				else
-					Parent->Right = BST_Delete( T->Element, Parent->Right);
+					Parent->Right = BST_Delete( TmpCell->Element, Parent->Right);
+			} else if (last_delete_flag == 1) { /* 左子树最大值上升 */
 				last_delete_flag = 0;
+				TmpCell = BST_FindMax2(&Parent, T->Left );
+				dbg("up left:T=%d,Parent=%d\n", T->Element, Parent->Element);
+				T->Element = TmpCell->Element;
+				if (T->Left == Parent) /* 可能删除parent自身,所以根从T->Left开始 */
+					T->Left = BST_Delete( TmpCell->Element, T->Left);
+				else if (Parent->Left == TmpCell)
+					Parent->Left = BST_Delete( TmpCell->Element, Parent->Left);
+				else
+					Parent->Right = BST_Delete( TmpCell->Element, Parent->Right);
 			}
 		}
 		else { /* One or zero children */
@@ -167,10 +172,64 @@ void BST_PrintTreeInorder(SearchTree T)
 	}
 }
 
+void BST_TravelInorder(SearchTree root, ET_STree *outbuf)
+{
+	Stack stack = NULL;
+	if ((stack = CreateStack(MAX_NODES_NUM)) == NULL) {
+		err("CreateStack err\n");
+		return;
+	}
+
+travel_left:
+	while (root != NULL) {
+		Push((void*) root, stack);
+		root = root->Left;
+	}
+
+	if (!IsStackEmpty(stack)) {
+		root = (SearchTree) Pop(stack);
+		if (outbuf != NULL) {
+			*outbuf++ = root->Element;
+		}
+		root = root->Right;
+		goto travel_left;
+	}
+
+	DisposeStack(stack);
+}
+
+int Max2(int a, int b)
+{
+	return a > b ? a : b;
+}
+
+/**
+ * todo stack overflow
+ */
+int BST_Height(SearchTree T)
+{
+	dbg("heigt, T=%d\n", T->Element);
+	if (T == NULL)
+		return -1;
+	else
+		return 1 + Max2(BST_Height(T->Left), BST_Height(T->Right));
+}
+
+int BST_HeightRootLeft(SearchTree T)
+{
+	return BST_Height(T->Left);
+}
+
+int BST_HeightRootRight(SearchTree T)
+{
+	return BST_Height(T->Right);
+}
+
 void BST_DumpDetails(SearchTree T)
 {
 	if (T != NULL) {
-		printf("%d ", T->Element);
+		/*printf("%d hl=%d, hr=%d,", T->Element, BST_Height(T->Left), BST_Height(T->Right));*/
+		printf("%d,", T->Element);
 
 		if (T->Left != NULL && T->Right != NULL)
 			printf("lchild=%d,rchild=%d\n", T->Left->Element, T->Right->Element);
