@@ -22,17 +22,30 @@
 int rand_int(int s, int e);
 
 /**
- * 返回nums个随机数, [RAND_MIN_DEFAULT, RAND_MAX_DEFAULT],
+ * 返回nums个未排序的随机数, [RAND_MIN_DEFAULT, RAND_MAX_DEFAULT],
  * 可能有重复数字
  */
 int *get_nums_list(int nums);
 
 /**
- * 返回nums个随机数, [min, max],
+ * 返回nums个未排序的随机数, [min, max],
  * 设置min=1, max=RAND_MAX, 为自然数的子集
  * 可能有重复数字
  */
 int *get_nums_list_in_range(int nums, int min, int max);
+
+/**
+ * 返回nums个未排序的随机数, [RAND_MIN_DEFAULT, RAND_MAX_DEFAULT],
+ * 没有重复数字
+ */
+int *get_nums_list_dereplication(int nums);
+
+/**
+ * 返回nums个未排序的随机数, [min, max],
+ * 设置min=1, max=RAND_MAX, 为自然数的子集
+ * 没有重复数字
+ */
+int *get_nums_list_in_range_dereplication(int nums, int min, int max);
 
 /**
  * 返回nums个按增序排序随机数, [RAND_MIN_DEFAULT, RAND_MAX_DEFAULT],

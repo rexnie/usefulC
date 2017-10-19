@@ -24,7 +24,8 @@ int main(void)
 	/*if ((ptr = get_nums_list(n)) != NULL) {*/
 	/*if ((ptr = get_nums_list_in_range(n ,min, max)) != NULL) {*/
 	/*if ((ptr = get_nums_list_sorted(n)) != NULL) {*/
-	if ((ptr = get_nums_list_in_range_sorted(n ,min, max)) != NULL) {
+	/*if ((ptr = get_nums_list_in_range_sorted(n ,min, max)) != NULL) {*/
+	if ((ptr = get_nums_list_in_range_dereplication(n ,min, max)) != NULL) {
 		for (i = 0; i < n; i++)
 			printf("%d ", ptr[i]);
 		get_min_max(ptr, n, &chk_min, &chk_max);

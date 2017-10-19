@@ -1,5 +1,6 @@
 #include "ds.h"
 #include "binary_search.h"
+#include "misc.h"
 #include <time.h>
 
 int rand_int(int s, int e)
@@ -42,6 +43,29 @@ int *get_nums_list_in_range(int nums, int min, int max)
 		srandom((unsigned int) time(NULL));
 		for (i = 0, p = ptr; i < nums; i++, p++)
 			*p = rand_int(min, max);
+	}
+	return ptr;
+}
+
+int *get_nums_list_dereplication(int nums)
+{
+	return get_nums_list_in_range_dereplication(nums, RAND_MIN_DEFAULT, RAND_MAX_DEFAULT);
+}
+
+int *get_nums_list_in_range_dereplication(int nums, int min, int max)
+{
+	int i;
+	int *ptr, *p, tmp;
+
+	if ((ptr = check_parameters_and_alloc_momory(nums, min, max)) != NULL) {
+		srandom((unsigned int) time(NULL));
+		for (i = 0, p = ptr; i < nums;) {
+			tmp = rand_int(min, max);
+			if (index_of_array(ptr, i+1, tmp) == NotFound) {
+				*p++ = tmp;
+				i++;
+			}
+		}
 	}
 	return ptr;
 }

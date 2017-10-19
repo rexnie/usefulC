@@ -26,7 +26,7 @@ $(TARGET_LIB) : $(OBJS_LIB)
 *.o : $(INC_DIR)/ds.h
 
 time_measure.o : $(INC_DIR)/time_measure.h
-num_seq.o : $(INC_DIR)/num_seq.h binary_search.o
+num_seq.o : $(INC_DIR)/num_seq.h binary_search.o misc.o
 binary_search.o : $(INC_DIR)/binary_search.h
 shell_sort.o : $(INC_DIR)/shell_sort.h
 misc.o : $(INC_DIR)/misc.h
