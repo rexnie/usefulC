@@ -1,5 +1,5 @@
-#include "binary_search_tree.h"
 #include "ds.h"
+#include "binary_search_tree.h"
 #include "num_seq.h"
 
 #define AUTO_TEST_INSERT_DELETE 1
@@ -22,10 +22,12 @@ static SearchTree AutoCreateTree( int n, int min, int max, SearchTree T )
 {
 	int i;
 	ET_STree *ptr;
-	if ((ptr = get_nums_list_in_range_sorted(n, min, max)) != NULL) {
+	if ((ptr = get_nums_list_in_range_dereplication(n, min, max)) != NULL) {
+#if 0
 		for (i = 0; i < n; i++)
 			printf("%d ", ptr[i]);
 		printf("\n");
+#endif
 		for (i = 0; i < n; i++)
 			T = BST_Insert(ptr[i], T);
 		free(ptr);
@@ -44,6 +46,8 @@ static int AutoTestInsertDelete(void)
 	int val;
 	int tcase;
 	int node_nums = N, node_nums2 = N;
+	int test_ins_cnt = 0;
+	int test_del_cnt = 0;
 
 #define SZ_TEST_BUF (N + TEST_TIMES)
 
@@ -62,12 +66,17 @@ static int AutoTestInsertDelete(void)
 		return -1;
 	}
 
+	dbg("T=%d, Height L=%d, R=%d\n", BST_Retrieve(T), BST_HeightRootLeft(T), BST_HeightRootRight(T));
+	BST_DumpDetails(T);
 	while (times--) {
 
-		if (times % 2 == 0)
+		if (times % 2 == 0) {
 			tcase = TCASE_INS;
-		else
+			test_ins_cnt++;
+		} else {
 			tcase = TCASE_DEL;
+			test_del_cnt++;
+		}
 
 		for (i = 0; i < SZ_TEST_BUF; i++)
 			buf1[i] = buf2[i] = -1;
@@ -120,12 +129,12 @@ static int AutoTestInsertDelete(void)
 	}
 
 
+	dbg("T=%d, Height L=%d, R=%d\n", BST_Retrieve(T), BST_HeightRootLeft(T), BST_HeightRootRight(T));
 	BST_DumpDetails(T);
 	for (i = 0; i < SZ_TEST_BUF; i++)
 		printf("%d ", buf2[i]);
-	printf("\ntimes=%d, node_nums2=%d\n", times, node_nums2);
-	/*dbg("Height L=%d, R=%d\n", BST_HeightRootLeft(T), BST_HeightRootRight(T));
-	dbg("Height root=%d\n", BST_Height(T));*/
+	printf("\ninsert/delete/total times=%d/%d/%d, tree nodes=%d\n",
+		test_ins_cnt, test_del_cnt, TEST_TIMES, node_nums2);
 
 	if (times == -1 ) {
 		dbg("autotest finished successfully\n");
@@ -204,6 +213,8 @@ int main(void)
 	BST_DumpDetails(T);
 	BST_PrintTreeInorder(T);
 	printf("\n");
+	dbg("Height L=%d, R=%d\n", BST_HeightRootLeft(T), BST_HeightRootRight(T));
+	dbg("Height root=%d\n", BST_Height(T));
 #endif
 	return EXIT_SUCCESS;
 }

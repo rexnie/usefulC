@@ -1,6 +1,7 @@
-#include "binary_search_tree.h"
 #include "ds.h"
+#include "binary_search_tree.h"
 #include "stack_array.h" /* modify ET_Stack to void* */
+#include "stack.h" /* modify ET_Stack2 to double */
 
 #define MAX_NODES_NUM  1000
 
@@ -198,21 +199,57 @@ travel_left:
 	DisposeStack(stack);
 }
 
-int Max2(int a, int b)
-{
-	return a > b ? a : b;
-}
-
 /**
- * todo stack overflow
+ * 使用二叉树后序遍历的一个算法来做，详细可看4.2_expression_tree/BinTree.c中
+ * 的BinT_TravelPostorder2函数
  */
-int BST_Height(SearchTree T)
+int BST_Height(SearchTree root)
 {
-	dbg("heigt, T=%d\n", T->Element);
-	if (T == NULL)
-		return -1;
-	else
-		return 1 + Max2(BST_Height(T->Left), BST_Height(T->Right));
+	int height = -1, i;
+	Stack stack = NULL;
+	if ((stack = CreateStack(MAX_NODES_NUM)) == NULL) {
+		err("CreateStack err\n");
+		return -2;
+	}
+#define FL_FIRST 1
+#define FL_CLR 0
+
+travel_left:
+	while (root != NULL) {  /* 一直沿左子树走 */
+		Push((void*) root, stack);
+		push_stack(FL_FIRST);
+		root = root->Left;
+	}
+
+pop_stk:
+	if (!is_stack_empty()) {
+		if (IsStackEmpty(stack)) { /* 2个栈要保持同步 */
+			err("two stack should the same size\n");
+			DisposeStack(stack);
+			return -2;
+		}
+		if ((int) peek_top() == FL_FIRST) {
+			/* 第一次出现在栈顶，从左子树回来 */
+			pop_stack();
+			push_stack(FL_CLR);
+
+			root = (SearchTree) Top(stack);
+			root = root->Right;
+			goto travel_left;
+		} else {
+			/* 第二次出现在栈顶，从右子树回来 */
+			i = NumOfElement(stack);
+			if (i > height)
+				height = i;
+			pop_stack();
+			root = (SearchTree) Pop(stack);
+			root = NULL;
+			goto pop_stk;
+		}
+	}
+
+	DisposeStack(stack);
+	return height;
 }
 
 int BST_HeightRootLeft(SearchTree T)
@@ -228,8 +265,14 @@ int BST_HeightRootRight(SearchTree T)
 void BST_DumpDetails(SearchTree T)
 {
 	if (T != NULL) {
-		/*printf("%d hl=%d, hr=%d,", T->Element, BST_Height(T->Left), BST_Height(T->Right));*/
+#if 1
+		int lh, rh;
+		lh = BST_Height(T->Left);
+		rh = BST_Height(T->Right);
+		printf("%d lheight=%d, rheight=%d,", T->Element, lh, rh);
+#else
 		printf("%d,", T->Element);
+#endif
 
 		if (T->Left != NULL && T->Right != NULL)
 			printf("lchild=%d,rchild=%d\n", T->Left->Element, T->Right->Element);
@@ -239,6 +282,7 @@ void BST_DumpDetails(SearchTree T)
 			printf("lchild=NULL,rchild=%d\n", T->Right->Element);
 		else
 			printf("no child\n");
+
 		BST_DumpDetails(T->Left);
 		BST_DumpDetails(T->Right);
 	}

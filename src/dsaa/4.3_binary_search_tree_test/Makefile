@@ -12,7 +12,7 @@ OBJS 	:= main.o
 SRCS 	:=
 DEP_LIB := ../lib/libds.a
 
-TARGET 	:= main.out
+TARGET 	:= a.out
 
 all : $(TARGET)
 

@@ -60,11 +60,20 @@ void BST_TravelInorder(SearchTree root, ET_STree *outbuf);
 /**
  * 求树的高
  * 空树的高为-1，叶子节点的高为0
+ * 返回-2表示内部出错
  */
 int BST_Height(SearchTree T);
 
+/**
+ * 求树T左子树的高
+ */
 int BST_HeightRootLeft(SearchTree T);
+
+/**
+ * 求树T右子树的高
+ */
 int BST_HeightRootRight(SearchTree T);
+
 /**
  * 打印二叉查找树的结构信息，可由这个结构信息方便地画出树
  */
