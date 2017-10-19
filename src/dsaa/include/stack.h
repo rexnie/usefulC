@@ -8,7 +8,7 @@
 #define __STACK_H 1
 
 typedef double ET_Stack2;
-#define MAXVAL	10000	/* 栈最大深度 */
+#define MAXVAL	251000	/* 栈最大深度 */
 
 int is_stack_empty(void);
 

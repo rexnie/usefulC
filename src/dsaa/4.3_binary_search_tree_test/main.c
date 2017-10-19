@@ -9,9 +9,9 @@
 
 #define N 500
 #define MIN_NODE_VAL 1
-#define MAX_NODE_VAL 1000
-#define TEST_TIMES 300
-
+#define MAX_NODE_VAL 1000000
+#define TEST_TIMES 250000
+#define RANDOM_SELECT_CASE 1
 #define TCASE_INS 1
 #define TCASE_DEL 2
 #else
@@ -68,9 +68,14 @@ static int AutoTestInsertDelete(void)
 
 	dbg("T=%d, Height L=%d, R=%d\n", BST_Retrieve(T), BST_HeightRootLeft(T), BST_HeightRootRight(T));
 	BST_DumpDetails(T);
+	start_clock();
 	while (times--) {
 
+#if RANDOM_SELECT_CASE
+		if (rand_int(0, 1) == 0) {
+#else
 		if (times % 2 == 0) {
+#endif
 			tcase = TCASE_INS;
 			test_ins_cnt++;
 		} else {
@@ -128,7 +133,7 @@ static int AutoTestInsertDelete(void)
 		node_nums = node_nums2;
 	}
 
-
+	dbg("clock=%llu\n", end_clock());
 	dbg("T=%d, Height L=%d, R=%d\n", BST_Retrieve(T), BST_HeightRootLeft(T), BST_HeightRootRight(T));
 	BST_DumpDetails(T);
 	for (i = 0; i < SZ_TEST_BUF; i++)

@@ -3,7 +3,7 @@
 #include "stack_array.h" /* modify ET_Stack to void* */
 #include "stack.h" /* modify ET_Stack2 to double */
 
-#define MAX_NODES_NUM  1000
+#define MAX_NODES_NUM  251000
 
 struct TreeNode
 {
@@ -113,7 +113,7 @@ SearchTree BST_Delete( ET_STree X, SearchTree T )
 	Position Parent;
 
 	if( T == NULL )
-		dbg( "delete X=%d not found\n", X );
+		;/*dbg( "delete X=%d not found\n", X );*/
 	else if( X < T->Element )  /* Go left */
 		T->Left = BST_Delete( X, T->Left );
 	else if( X > T->Element )  /* Go right */
