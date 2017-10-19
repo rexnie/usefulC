@@ -55,10 +55,19 @@ int prepare_measure(int cnt)
 	return 0;
 }
 
+void print_ctime(char *tag)
+{
+	time_t now;
+
+	now = time(NULL);
+	dbg("%s=%s", tag, ctime(&now));
+}
+
 void start_clock(void)
 {
 	clk_start = clock();
 	result_unit = MS;
+	print_ctime("start_time");
 }
 
 tm_t end_clock(void)
@@ -82,6 +91,7 @@ tm_t end_clock(void)
 		*(pmsec + msec_offset) = msec;
 		msec_offset ++;
 	}
+	print_ctime("end_time");
 	return msec;
 }
 

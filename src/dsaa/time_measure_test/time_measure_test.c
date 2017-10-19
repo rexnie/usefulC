@@ -12,5 +12,6 @@ int main(void)
 			b += i * j;
 
 	dbg("%llu\n", end_clock());
+	print_ctime("end of main");
 	return 0;
 }

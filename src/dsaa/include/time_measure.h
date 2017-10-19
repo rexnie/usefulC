@@ -36,6 +36,13 @@ typedef unsigned long long tm_t;
 int prepare_measure(int cnt);
 
 /**
+ * 打印当前的时间，格式如:
+ * Fri Oct 20 06:48:54 2017
+ * tag是个标签，如"start_time"
+ */
+void print_ctime(char *tag);
+
+/**
  * 开始一次测试计时
  * 使用clock()函数实现，精度是0.01sec
  */
