@@ -1,6 +1,6 @@
 #include "binary_search_tree.h"
 #include "ds.h"
-#include "stack_array.h"
+#include "stack_array.h" /* modify ET_Stack to void* */
 
 #define MAX_NODES_NUM  1000
 

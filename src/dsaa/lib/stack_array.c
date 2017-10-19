@@ -99,6 +99,6 @@ void DumpStack( Stack S, void (*func)(ET_Stack))
 		if (func != NULL)
 			func(S->Array[i]);
 		else
-			printf("%d ", S->Array[i]);
+			printf("%ld ", (long) S->Array[i]);
 	dbg("\ntotal %d elements in stack\n", i);
 }

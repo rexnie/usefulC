@@ -164,7 +164,7 @@ void PrintList(List L, void (*func)(ET_List))
 
 	while(p != NULL) {
 		if (func == NULL)
-			printf("%d ", p->Element);
+			printf("%ld ", (long) p->Element);
 		else
 			func(p->Element);
 		p = p->Next;

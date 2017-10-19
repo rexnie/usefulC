@@ -1,4 +1,6 @@
 #include "ds.h"
+#include "binary_search.h"
+#include <time.h>
 
 int rand_int(int s, int e)
 {
