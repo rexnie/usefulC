@@ -10,7 +10,7 @@ CFLAGS 	:= -g -O3 $(DEFINES) $(INCLUDE)
 INC_DIR := ../include
 
 OBJS_LIB:= time_measure.o num_seq.o binary_search.o shell_sort.o misc.o linked_list.o \
-	stack_array.o stack.o getch.o queue.o binary_search_tree.o avltree.o
+	stack_array.o stack.o getch.o queue.o binary_search_tree.o avltree.o binheap.o
 SRCS 	:=
 
 TARGET_LIB := libds.a
@@ -37,6 +37,7 @@ getch.o : $(INC_DIR)/getch.h
 queue.o : $(INC_DIR)/queue.h
 binary_search_tree.o : $(INC_DIR)/binary_search_tree.h
 avltree.o : $(INC_DIR)/avltree.h
+binheap.o : $(INC_DIR)/binheap.h
 
 .PHONY : clean db
 clean :
