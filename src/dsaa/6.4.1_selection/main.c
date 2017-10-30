@@ -25,16 +25,17 @@ int get_kTh_max(int *a, int n, int k)
 		err("k must be [1, n]\n");
 		return PQMinData;
 	}
+
 	if ((pq = PQ_Initialize(n)) == NULL) {
 		err("init priority queue err\n");
 		return PQMinData;
 	}
-	if (PQ_BuildHeap(a, n, pq) < 0) {
+	if (PQ_BuildHeap2(a, n, pq) < 0) {
 		err("build heap err\n");
 	}
 
 #if __DBG
-	PQ_Dump(pq, __func__);
+	PQ_Dump(pq, "get_kTh_max");
 #endif
 
 	for (i = 1; i <= n + 1 - k; i++) {
@@ -54,8 +55,10 @@ int get_kTh_max(int *a, int n, int k)
 /**
  * n个数里，求第K个最大数
  * 算法6B:
- * 对n + 1 - k个元素建立堆，然后后面的元素一个个入堆，DeleteMin
- * 适合在n+1-k很大的情况
+ * 对数组a中的前k个元素建立堆，二叉堆维持者k个最大元素，
+ * 后面的元素a[i](其中i=[k,n-1]), 如果a[i]比堆中的最小值大的话，入堆
+ * 最后二叉堆中的最小值即是第k个最大元素了
+ * 适合在k很大的情况
  * 时间复杂度: O(Nlogk)
  * 返回:
  * PQMinData: 内部错
@@ -65,32 +68,31 @@ int get_kTh_max2(int *a, int n, int k)
 {
 	int i;
 	int val = PQMinData;
-	int kmin = n + 1 - k;
 #if __DBG
 	char buf[512];
 #endif
 
 	PriorityQueue pq = NULL;
+
 	if (k > n || k < 0) {
 		err("k must be [1, n]\n");
 		return PQMinData;
 	}
-	if ((pq = PQ_Initialize(kmin)) == NULL) {
+
+	if ((pq = PQ_Initialize(k)) == NULL) {
 		err("init priority queue err\n");
 		return PQMinData;
 	}
-	if (PQ_BuildHeap(a, kmin, pq) < 0) {
+	if (PQ_BuildHeap(a, k, pq) < 0) {
 		err("build heap err\n");
 	}
 
 #if __DBG
-	PQ_Dump(pq, __func__);
+	PQ_Dump(pq, "get_kTh_max2");
 #endif
 
-	for (i = kmin; i < n; i++) {
-		if (a[i] <= PQ_FindMin(pq))
-			val = a[i];
-		else {
+	for (i = k; i < n; i++) {
+		if (a[i] > PQ_FindMin(pq)) {
 			PQ_Insert(a[i], pq);
 			val = PQ_DeleteMin(pq);
 		}
@@ -101,10 +103,13 @@ int get_kTh_max2(int *a, int n, int k)
 #endif
 	}
 
+	val = PQ_FindMin(pq);
+
 	PQ_Destroy(pq);
 
 	return val;
 }
+
 int main(void)
 {
 	int *ptr, i;

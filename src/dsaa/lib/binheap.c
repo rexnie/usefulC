@@ -181,7 +181,7 @@ PQ_DeleteMin( PriorityQueue H )
 ET_PQ
 PQ_FindMin( PriorityQueue H )
 {
-	if( !IsEmpty( H ) )
+	if( !PQ_IsEmpty( H ) )
 		return H->Elements[ 1 ];
 	err( "Priority Queue is Empty" );
 	return H->Elements[ 0 ];
