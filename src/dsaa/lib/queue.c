@@ -12,6 +12,8 @@ struct QueueRecord
 	ET_Queue *Array;
 };
 
+static void Q_DumpInternal( Queue Q, char *tag);
+
 static int Q_Succ( int Value, Queue Q )
 {
 	if( ++Value == Q->Capacity )
@@ -21,7 +23,7 @@ static int Q_Succ( int Value, Queue Q )
 
 int Q_IsEmpty( Queue Q )
 {
-	return Q_Succ(Q->Rear, Q) == Q->Front ? 1 : 0;
+	return Q->Size == 0;
 }
 
 int Q_IsFull( Queue Q )
@@ -103,4 +105,26 @@ ET_Queue Q_Dequeue( Queue Q )
 		Q->Front = Q_Succ( Q->Front, Q );
 	}
 	return X;
+}
+
+int Q_GetQueueSize( Queue Q )
+{
+	return Q->Size;
+}
+
+int Q_GetQueueCapacity( Queue Q )
+{
+	return Q->Capacity;
+}
+
+int Q_GetFreeSpace( Queue Q )
+{
+	return Q->Capacity - Q->Size;
+}
+
+static void Q_DumpInternal( Queue Q, char *tag)
+{
+	dbg("%s call Q_DumpInternal\n", tag);
+	printf("size=%d, cap=%d, front=%d, rear=%d\n", Q->Size,
+		Q->Capacity, Q->Front, Q->Rear);
 }

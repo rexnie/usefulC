@@ -48,4 +48,18 @@ ET_Queue Q_Front( Queue Q );
  */
 ET_Queue Q_Dequeue( Queue Q );
 
+/**
+ * 返回队列中元素的个数
+ */
+int Q_GetQueueSize( Queue Q );
+
+/**
+ * 返回队列中的总容量
+ */
+int Q_GetQueueCapacity( Queue Q );
+
+/**
+ * 返回队列的空闲空间，即还可以放入的元素个数
+ */
+int Q_GetFreeSpace( Queue Q );
 #endif  /* _Queue_h */
