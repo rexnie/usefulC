@@ -11,7 +11,7 @@ INC_DIR := ../include
 
 OBJS_LIB:= time_measure.o num_seq.o binary_search.o shell_sort.o misc.o linked_list.o \
 	stack_array.o stack.o getch.o queue.o binary_search_tree.o avltree.o binheap.o \
-	leftheap.o
+	leftheap.o binomial.o
 SRCS 	:=
 
 TARGET_LIB := libds.a
@@ -40,6 +40,7 @@ binary_search_tree.o : $(INC_DIR)/binary_search_tree.h
 avltree.o : $(INC_DIR)/avltree.h
 binheap.o : $(INC_DIR)/binheap.h
 leftheap.o : $(INC_DIR)/leftheap.h
+binomial.o : $(INC_DIR)/binomial.h
 
 .PHONY : clean db
 clean :

@@ -126,12 +126,14 @@ int main(void)
 
 	if ((i = get_kTh_max(ptr, n, k)) == PQMinData) {
 		err("internal err\n");
+		free_nums_list(ptr);
 		return EXIT_FAILURE;
 	}
 	dbg("%dth max val = %d\n", k, i);
 
 	if ((i = get_kTh_max2(ptr, n, k)) == PQMinData) {
 		err("internal err\n");
+		free_nums_list(ptr);
 		return EXIT_FAILURE;
 	}
 	dbg("%dth max val = %d\n", k, i);
