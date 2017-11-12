@@ -53,15 +53,6 @@ typedef int ElementType;
 /*#include "binary_search.h"*/
 
 /**
- * Sort 算法库
- */
-
-/**
- * shell 排序算法
- */
-/*#include "shell_sort.h"*/
-
-/**
  * for linked list ADT
  */
 /*#include "linked_list.h"*/
