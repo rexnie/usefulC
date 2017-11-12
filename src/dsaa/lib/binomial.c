@@ -26,7 +26,7 @@ typedef struct TmpNode *PTmpNode;
 struct Collection
 {
 	int CurrentSize; /* 当前节点个数 */
-	BinTree TheTrees[ MaxTrees ]; /* 对应高度的二项树 */
+	BinTree TheTrees[ MaxTrees ]; /* 每个高度的二项树的集合 */
 				/* 高度为i的二项树的节点数 1<<i */
 };
 
@@ -240,7 +240,7 @@ BinQueue
 BQ_Insert( ET_BQ Item, BinQueue H )
 {
 	BinTree NewNode;
-	BinQueue OneItem;
+	BinQueue OneItem, tmp;
 
 	if ((NewNode = BQ_AllocBinTreeNode(Item)) == NULL) {
 		err("Insert err: malloc err\n");
@@ -248,25 +248,64 @@ BQ_Insert( ET_BQ Item, BinQueue H )
 	}
 
 	OneItem = BQ_Initialize( );
+	if (OneItem == NULL) {
+		err("alloc fail\n");
+		free(NewNode);
+		return NULL;
+	}
+
 	OneItem->CurrentSize = 1;
 	OneItem->TheTrees[ 0 ] = NewNode;
 
-	return BQ_Merge( H, OneItem );
+	tmp = BQ_Merge( H, OneItem );
+	if (tmp == NULL) {
+		err("insert fail\n");
+		free(NewNode);
+		free(OneItem);
+	}
+	return tmp;
 }
 
-ET_BQ
-BQ_DeleteMin( BinQueue H )
+BinQueue
+BQ_Insert2( ET_BQ Item, BinQueue H )
+{
+	int i = 0;
+	BinTree NewNode;
+
+	if (BQ_IsFull(H)) {
+		err("H is full\n");
+		return NULL;
+	}
+
+	if ((NewNode = BQ_AllocBinTreeNode(Item)) == NULL) {
+		err("Insert err: malloc err\n");
+		return NULL;
+	}
+
+	while (H->TheTrees[i] != NULL) {
+		NewNode = BQ_CombineTrees(H->TheTrees[i], NewNode);
+		H->TheTrees[i] = NULL;
+		i++;
+	}
+	H->TheTrees[i] = NewNode;
+	H->CurrentSize += 1;
+
+	return H;
+}
+
+BinQueue
+BQ_DeleteMin( ET_BQ *val,  BinQueue H )
 {
 	int i, j;
 	int MinTreeHeight;   /* The tree with the minimum item */
-	BinQueue DeletedQueue;
+	BinQueue DeletedQueue, tmp;
 	Position DeletedTree, OldRoot;
 	ET_BQ MinItem; /* 最小项的值 */
 
 	if( BQ_IsEmpty( H ) )
 	{
 		err( "Empty binomial queue" );
-		return -Infinity;
+		return NULL;
 	}
 
 	MinItem = Infinity;
@@ -287,7 +326,7 @@ BQ_DeleteMin( BinQueue H )
 
 	/* 被删除最小值的二项树，得到一个新的森林, 放入新的二项队列 */
 	DeletedQueue = BQ_Initialize( );
-	DeletedQueue->CurrentSize = ( 1 << MinTreeHeight ) - 1;
+	DeletedQueue->CurrentSize = ( 1 << MinTreeHeight ) - 1; /* 被删除一个节点后的节点树 */
 	for( j = MinTreeHeight - 1; j >= 0; j-- ) /* 从最大高度开始插入新的二项队列 */
 	{
 		DeletedQueue->TheTrees[ j ] = DeletedTree;
@@ -296,11 +335,12 @@ BQ_DeleteMin( BinQueue H )
 	}
 
 	H->TheTrees[ MinTreeHeight ] = NULL;
-	H->CurrentSize -= DeletedQueue->CurrentSize + 1;
+	H->CurrentSize -= DeletedQueue->CurrentSize + 1; /* 删除一棵二项树后的节点数 */
 
-	BQ_Merge( H, DeletedQueue );
-	free(DeletedQueue);
-	return MinItem;
+	tmp = BQ_Merge( H, DeletedQueue ); /* 节点数在减少，不会失败 */
+	if (val != NULL)
+		*val = MinItem;
+	return tmp;
 }
 
 ET_BQ
@@ -349,19 +389,44 @@ BQ_CombineTrees( BinTree T1, BinTree T2 )
 	return T1;
 }
 
+/**
+ * 如果合并自己, C/T 可能的情况是:
+ * 00
+ * 01
+ * 10
+ * 11
+ * TODO:
+ * 1. 支持失败回退,可重入
+ * 2. copyTree
+ */
+static BinQueue
+BQ_MergeSelf(BinQueue T)
+{
+	dbg("current not support MergeSelf\n");
+	return NULL;
+}
+
 /* Merge two binomial queues */
-/* Not optimized for early termination */
-/* H1 contains merged result */
 BinQueue
 BQ_Merge( BinQueue H1, BinQueue H2 )
 {
+	unsigned int i, j, k;
 	BinTree T1, T2, Carry = NULL;
-	int i, j;
+	BinQueue tmp;
 
 	if( H1->CurrentSize + H2->CurrentSize > Capacity ) {
 		err( "Merge would exceed capacity" );
 		return NULL;
 	}
+
+	if(H1->CurrentSize < H2->CurrentSize) {
+		tmp = H1;
+		H1 = H2;
+		H2 = tmp;
+	}
+
+	if(H1 == H2)
+		return BQ_MergeSelf(H1);
 
 	/* 更新新的二项队列的节点个数 */
 	H1->CurrentSize += H2->CurrentSize;
@@ -369,9 +434,12 @@ BQ_Merge( BinQueue H1, BinQueue H2 )
 	/* j 为新的二项队列的节点个数的总计:
 	 * 1 + 2^1 + 2^2 +...
 	 * 使用j来控制for循环次数
+	 *
+	 * k 为H2的节点个数的总计,方便提前退出for
 	 */
-	for( i = 0, j = 1; j <= H1->CurrentSize; i++, j *= 2 )
-	{
+	for( i = 0, j = 1, k = 1; j <= H1->CurrentSize; i++, j <<= 1, k <<= 1 ) {
+		if (k > H2->CurrentSize && Carry == NULL)
+			break;
 		/**
 		 * i 为二项队列的高度迭代变量
 		 * T1: 二项队列H1中，高度为i的树的根指针
@@ -420,6 +488,9 @@ BQ_Merge( BinQueue H1, BinQueue H2 )
 				break;
 		}
 	}
+
+	free(H2);
+
 	return H1;
 }
 

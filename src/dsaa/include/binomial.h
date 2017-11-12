@@ -49,9 +49,15 @@ BinQueue BQ_MakeEmpty( BinQueue H );
  * 向二项队列插入Item元素
  * 返回:
  * NULL: 插入失败
- * H: 插入成功
+ * H: 插入成功后的二项队列的指针
  */
 BinQueue BQ_Insert( ET_BQ Item, BinQueue H );
+
+/**
+ * 同BQ_Insert, 不使用BQ_Merge实现
+ * 直接构建一个二项树，插入到H
+ */
+BinQueue BQ_Insert2( ET_BQ Item, BinQueue H );
 
 /**
  * 删除二项队列中最小元素
@@ -59,13 +65,14 @@ BinQueue BQ_Insert( ET_BQ Item, BinQueue H );
  * -Infinity: 二项队列为空
  * other: 二项队列中最小元素
  */
-ET_BQ BQ_DeleteMin( BinQueue H );
+BinQueue BQ_DeleteMin( ET_BQ *val, BinQueue H );
 
 /**
  * 合并两个二项队列
  * 返回:
- * NULL: 合并失败 
- * !NULL: 合并后的二项队列的指针,当前保存在H1
+ * NULL: 合并失败, H1和H2保持不变
+ * !NULL: 合并后的二项队列的指针,也即节点个数多的二项队列，
+ *        另一个二项队列会被Destroy掉
  */
 BinQueue BQ_Merge( BinQueue H1, BinQueue H2 );
 

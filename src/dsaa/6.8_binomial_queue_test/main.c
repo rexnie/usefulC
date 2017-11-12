@@ -86,16 +86,14 @@ int get_kTh_max2(int *a, int n, int k)
 	BQ_DumpQueue(bq, "get_kTh_max2");
 #endif
 
-#if 1
 	for (i = 1; i <= n + 1 - k; i++) {
-		val = BQ_DeleteMin(bq);
+		bq = BQ_DeleteMin(&val, bq);
 #if __DBG
 		dbg("i=%d, val=%d\n", i, val);
 		snprintf(buf, sizeof(buf), "after %s_%d", __func__, i);
 		BQ_DumpQueue(bq, buf);
 #endif
 	}
-#endif
 	BQ_Destroy(bq);
 
 	return val;
@@ -107,6 +105,11 @@ int main(void)
 	int k = 9;
 	int n = 10;
 	int min = 1, max = 100;
+#define TEST_INSERT 0
+#if TEST_INSERT
+	BinQueue bq, tmp;
+	int val = -Infinity;
+#endif
 
 	if ((ptr = get_nums_list_in_range_dereplication(n ,min, max)) == NULL) {
 		err("get num list err\n");
@@ -114,13 +117,37 @@ int main(void)
 	}
 
 	dump_array(ptr, n, "in main");
+
+#if TEST_INSERT
+	if ((bq = BQ_Initialize()) == NULL) {
+		err("init binomial queue err\n");
+		free_nums_list(ptr);
+		return EXIT_FAILURE;
+	}
+
+	for (i = 0; i < n; i++) {
+		if ((tmp = BQ_Insert(ptr[i], bq)) != NULL) {
+			bq = tmp;
+		} else {
+			err("insert err\n");
+			break;
+		}
+	}
+
+	BQ_DumpQueue(bq, "in main");
+	dbg("BQ_FindMin=%d\n", BQ_FindMin(bq));
+	bq = BQ_DeleteMin(&val, bq);
+	BQ_DumpQueue(bq, "in main");
+	dbg("del min=%d, BQ_FindMin=%d\n", val, BQ_FindMin(bq));
+
+#else
 	if ((i = get_kTh_max(ptr, n, k)) == PQMinData) {
 		err("internal err\n");
 		free_nums_list(ptr);
 		return EXIT_FAILURE;
 	}
 	dbg("%dth max val = %d\n", k, i);
-#if 1
+
 	if ((i = get_kTh_max2(ptr, n, k)) == -Infinity) {
 		err("internal err\n");
 		free_nums_list(ptr);
