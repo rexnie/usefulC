@@ -74,3 +74,12 @@ void dump_array(ElementType *a, int n, char *calling)
 		printf("%d ", a[i]);
 	printf("\n");
 }
+
+
+void swap(ElementType *x, ElementType *y)
+{
+	ElementType t;
+	t = *x;
+	*x = *y;
+	*y = t;
+}

@@ -67,13 +67,6 @@ void permutate2(int *array, int n)
 	free(ptr);
 }
 
-void swap(int *x, int *y)
-{
-	int t;
-	t = *x;
-	*x = *y;
-	*y = t;
-}
 
 void permutate3(int *array, int n)
 {

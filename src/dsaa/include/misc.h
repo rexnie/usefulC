@@ -72,4 +72,9 @@ int is_array_equal(ElementType *a, ElementType *b, int n);
  *
  */
 void dump_array(int *ptr, int n, char *calling);
+
+/**
+ * 交换x & y的值
+ */
+void swap(ElementType *x, ElementType *y);
 #endif

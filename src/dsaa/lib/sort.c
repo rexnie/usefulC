@@ -53,7 +53,7 @@ void shell_sort2(ElementType *a, int n)
 	}
 
 	/* hibbard增量: 1, 3, 7,...2^inc_num -1
-	 */
+	*/
 	for (i = 1; i <= inc_num; i++)
 		ptr[i-1] = (1 << i) - 1;
 
@@ -117,5 +117,37 @@ void shell_sort3(ElementType *a, int n)
 					break;
 			a[k] = tmp;
 		}
+	}
+}
+
+#define LeftChild( i )  ( 2 * ( i ) + 1 )
+static void perc_down(ElementType *a, int i, int n)
+{
+	int child;
+	ElementType tmp;
+
+	for(tmp = a[i]; LeftChild( i ) < n; i = child ) {
+		child = LeftChild( i );
+
+		if( child != n - 1 && a[ child + 1 ] > a[ child ] )
+			child++; /* find Larger child */
+		if( tmp < a[ child ] )
+			a[ i ] = a[ child ];
+		else
+			break;
+	}
+	a[ i ] =tmp;
+}
+
+void heap_sort(ElementType *a, int n)
+{
+	int i;
+
+	for( i = n / 2; i >= 0; i-- )  /* Build Max Heap, index from 0 to n-1 */
+		perc_down(a, i, n);
+
+	for( i = n - 1; i > 0; i-- ) { /* n-1 次delete操作 */
+		swap( &a[ 0 ], &a[ i ] );  /* DeleteMax: a[0] 是最大值，与最后一个元素交换 */
+		perc_down( a, 0, i );
 	}
 }

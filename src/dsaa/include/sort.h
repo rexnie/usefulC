@@ -33,4 +33,13 @@ void shell_sort2(ElementType *a, int n);
  * 最好运行时间:
  */
 void shell_sort3(ElementType *a, int n);
+
+/**
+ * heap排序算法
+ * 最坏运行时间: O(nlog(n))
+ * 平均运行时间:
+ * 最好运行时间:
+ * 实践中，它慢于使用Sedgewick增量的shell排序
+ */
+void heap_sort(ElementType *a, int n);
 #endif
