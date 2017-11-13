@@ -1,4 +1,5 @@
 #include "sort.h"
+#include <math.h>
 
 void insert_sort(ElementType *a, int n)
 {
@@ -82,6 +83,7 @@ void shell_sort3(ElementType *a, int n)
 	int increment;
 
 	/* Sedgewick增量: 1, 5, 19, 41, 109...
+	 * TODO: 增量这里放了10个数，如果是非常大的n的话，需要更多的inc空间
 	 */
 	int inc[] = { 1, 5, 19, 41, 109,
 		209, 505, 929, 8929, 2161 };
@@ -92,10 +94,14 @@ void shell_sort3(ElementType *a, int n)
 				(1<<(2*i)) - 3 * (1<<i) +1);
 #endif
 
+#if 0
 	for (i = 0; i < sizeof(inc) / sizeof(inc[0]); i++)
 		if (inc[i] > n / 2)
 			break;
 	inc_num = i;
+#else
+	inc_num = sizeof(inc) / sizeof(inc[0]) - 1;
+#endif
 
 	dbg("n=%d inc_num=%d\n", n, inc_num);
 	dump_array(inc, inc_num+1, "shell_sort3");

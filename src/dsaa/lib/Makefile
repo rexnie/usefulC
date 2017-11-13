@@ -6,7 +6,7 @@ LDLIBS 	:= -lds -lrt
 LDFLAGS := -L.
 DEFINES :=
 INCLUDE := -I../include/
-CFLAGS 	:= -g -O3 $(DEFINES) $(INCLUDE)
+CFLAGS 	:= -ansi -g -O3 $(DEFINES) $(INCLUDE)
 INC_DIR := ../include
 
 OBJS_LIB:= time_measure.o num_seq.o binary_search.o sort.o misc.o linked_list.o \
