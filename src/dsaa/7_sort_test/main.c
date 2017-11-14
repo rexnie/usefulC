@@ -19,7 +19,8 @@ int main(void)
 	/*shell_sort(ptr, n);*/
 	/*shell_sort2(ptr, n);*/
 	/*shell_sort3(ptr, n);*/
-	heap_sort(ptr, n);
+	/*heap_sort(ptr, n);*/
+	merge_sort(ptr, n);
 
 	dump_array(ptr, n, "after sort");
 	dbg("is_sort ret=%d\n", is_sorted_no_equal(ptr, n));

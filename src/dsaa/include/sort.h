@@ -42,4 +42,13 @@ void shell_sort3(ElementType *a, int n);
  * 实践中，它慢于使用Sedgewick增量的shell排序
  */
 void heap_sort(ElementType *a, int n);
+
+/**
+ * 归并(merge)排序算法
+ * 最坏运行时间: O(nlog(n))
+ * 平均运行时间:
+ * 最好运行时间:
+ * 它所使用的比较次数几乎是最优的，但是需要n个附加的内存
+ */
+void merge_sort(ElementType *a, int n);
 #endif

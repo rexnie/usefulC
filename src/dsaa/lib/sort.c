@@ -151,3 +151,59 @@ void heap_sort(ElementType *a, int n)
 		perc_down( a, 0, i );
 	}
 }
+
+/**
+ * 合并两个已经排序的子数组
+ * [l_start_idx : ]   [r_start_idx : r_end_idx]
+ */
+static void merge(ElementType *a, ElementType *ta,
+		int l_start_idx, /* start index of left sub-array */
+		int r_start_idx, /* start index of right sub-array */
+		int r_end_idx)  /* end index of right sub-array */
+{
+	int i, l_end_idx, nums, tmp_idx;
+
+	l_end_idx = r_start_idx - 1;
+	tmp_idx = l_start_idx;
+	nums = r_end_idx - l_start_idx + 1;
+
+	/* main loop */
+	while(l_start_idx <= l_end_idx && r_start_idx <= r_end_idx)
+		if(a[l_start_idx] <= a[r_start_idx])
+			ta[tmp_idx++] = a[l_start_idx++];
+		else
+			ta[tmp_idx++] = a[r_start_idx++];
+
+	while(l_start_idx <= l_end_idx)  /* Copy rest of left half */
+		ta[tmp_idx++] = a[l_start_idx++];
+	while(r_start_idx <= r_end_idx) /* Copy rest of right half */
+		ta[tmp_idx++] = a[r_start_idx++];
+
+	/* Copy from tmp array back to array */
+	for(i = 0; i < nums; i++, r_end_idx--)
+		a[r_end_idx] = ta[r_end_idx];
+}
+
+static void m_sort(ElementType *a, ElementType *ta, int l_idx, int r_idx )
+{
+	int m_idx; /* middle index */
+
+	if(l_idx < r_idx) { /* 退出递归条件 */
+		m_idx = (l_idx + r_idx) / 2;
+		m_sort(a, ta, l_idx, m_idx); /* 递归地排序左半数组 */
+		m_sort(a, ta, m_idx + 1, r_idx); /* 递归地排序右半数组 */
+		merge(a, ta, l_idx, m_idx + 1, r_idx);
+	}
+}
+
+void merge_sort(ElementType *a, int n)
+{
+	ElementType *ta;
+
+	if ((ta = malloc(n * sizeof(ElementType))) != NULL) {
+		m_sort(a, ta, 0, n - 1);
+		free(ta);
+	}
+	else
+		err("merge sort alloc tmp array fail\n");
+}
