@@ -207,3 +207,65 @@ void merge_sort(ElementType *a, int n)
 	else
 		err("merge sort alloc tmp array fail\n");
 }
+
+/**
+ * l_idx, m_idx, r_idx三个位置的值取中位数作为枢纽元pivot
+ * pivot先放在r_idx-1的位置，因为r_idx是最大值，应该在右边
+ */
+static ElementType median3(ElementType *a, int l_idx, int r_idx)
+{
+	int m_idx = (l_idx + r_idx) / 2;
+
+	if (a[l_idx] > a[m_idx])
+		swap(&a[l_idx], &a[m_idx]);
+	if (a[l_idx] > a[r_idx])
+		swap(&a[l_idx], &a[r_idx]);
+	if (a[m_idx] > a[r_idx])
+		swap(&a[m_idx], &a[r_idx]);
+
+	/* so after this: a[l_idx] <= a[m_idx] <= a[r_idx] */
+	/* a[m_idx] is the pivot, put it to r_idx - 1 */
+
+	swap(&a[m_idx], &a[r_idx - 1]);
+	return a[r_idx - 1];
+}
+
+/**
+ * 对于小数组(n<20),快速排序不如插入排序好
+ * 所以小数组使用插入排序
+ */
+#define CUTOFF_RANGE 10
+static void q_sort(ElementType *a, int l_idx, int r_idx)
+{
+	int i, j;
+	ElementType pivot, tmp;
+
+	if (l_idx + CUTOFF_RANGE <= r_idx) {
+		pivot = median3(a, l_idx, r_idx);
+		i = l_idx;
+		j = r_idx - 1;
+		for (;;) {
+			/* 根据与pivot的大小关系，把数组中的分成2个集合 */
+			while (a[++i] < pivot)
+				;
+			while (a[--j] > pivot)
+				;
+			if (i < j) { /* 这里直接交换，没有调用swap方法，速度会更快 */
+				tmp = a[i];
+				a[i] = a[j];
+				a[j] = tmp;
+			} else
+				break;
+		}
+		swap(&a[i], &a[r_idx - 1]);
+
+		q_sort(a, l_idx, i - 1);
+		q_sort(a, i + 1, r_idx);
+	} else /* 小数组使用插入排序 */
+		insert_sort(a + l_idx, r_idx - l_idx + 1);
+}
+
+void quick_sort(ElementType *a, int n)
+{
+	q_sort(a, 0, n - 1);
+}

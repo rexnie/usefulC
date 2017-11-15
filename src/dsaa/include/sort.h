@@ -51,4 +51,12 @@ void heap_sort(ElementType *a, int n);
  * 它所使用的比较次数几乎是最优的，但是需要n个附加的内存
  */
 void merge_sort(ElementType *a, int n);
+
+/**
+ * 快速排序算法
+ * 最坏运行时间: O(nlog(n))
+ * 平均运行时间: O(nlog(n))
+ * 最好运行时间:
+ */
+void quick_sort(ElementType *a, int n);
 #endif

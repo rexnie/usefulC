@@ -4,27 +4,51 @@
 
 int main(void)
 {
-	int *ptr, i;
+	int *ptr, i, j;
 	int n = 200;
-	int min = 0, max = 1000;
+	int is_sorted;
+	int test_times = 10;
+	int min = RAND_MIN_DEFAULT, max = RAND_MAX_DEFAULT;
 
-	if ((ptr = get_nums_list_in_range_dereplication(n, min, max)) == NULL) {
-		err("generate test data err\n");
-		return EXIT_FAILURE;
+	int case_nums = 6;
+	int test_cases[] = { 10, 100, 1000, 10000, 100000, 1000000 };
+
+	i = 0;
+	while (i < case_nums) {
+		n = test_cases[i];
+		prepare_measure(test_times);
+		for (j = 0; j < test_times; j++) {
+			if ((ptr = get_nums_list_in_range_dereplication(n, min, max)) == NULL) {
+				err("generate test data err\n");
+				return EXIT_FAILURE;
+			}
+
+			/*dump_array(ptr, n, "before sort");*/
+
+			/*insert_sort(ptr, n);*/
+			/*shell_sort(ptr, n);*/
+			/*shell_sort2(ptr, n);*/
+			/*shell_sort3(ptr, n);*/
+			/*heap_sort(ptr, n);*/
+			/*merge_sort(ptr, n);*/
+			start_clock_ns();
+			quick_sort(ptr, n);
+			end_clock_ns();
+
+			/*dump_array(ptr, n, "after sort");*/
+			is_sorted = is_sorted_no_equal(ptr, n);
+			if (!is_sorted) {
+				dbg("not sorted\n");
+				dump_array(ptr, n, "after sort");
+				free_nums_list(ptr);
+				return EXIT_FAILURE;
+			}
+
+			free_nums_list(ptr);
+		}
+		finish_and_dump_measure();
+		dbg("test case end, index = %d, n = %d\n", i, n);
+		i++;
 	}
-
-	dump_array(ptr, n, "before sort");
-
-	/*insert_sort(ptr, n);*/
-	/*shell_sort(ptr, n);*/
-	/*shell_sort2(ptr, n);*/
-	/*shell_sort3(ptr, n);*/
-	/*heap_sort(ptr, n);*/
-	merge_sort(ptr, n);
-
-	dump_array(ptr, n, "after sort");
-	dbg("is_sort ret=%d\n", is_sorted_no_equal(ptr, n));
-
-	free_nums_list(ptr);
 	return EXIT_SUCCESS;
 }
