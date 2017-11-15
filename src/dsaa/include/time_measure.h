@@ -20,6 +20,16 @@
  * your_algorith(...)
  * tm = end_clock()/end_clock_ns();
  * printf("%llu\n", tm);
+ *
+ * 3. start_clock()/start_clock_ns()的区别
+ * start_clock() 根据进程使用了多少cpu tick统计时间
+ * start_clock_ns() 获取硬件RTC统计时间
+ * 每个平台的时间精度不一样
+ * 在macbook sierra+virtualbox5.1.3+ubuntu 12.04上测试
+ * CLOCKS_PER_SEC = 1000000
+ * start_clock_ns 的精度是1ns
+ * 精确计时使用start_clock_ns()
+ * 计算时间长的(>min)使用start_clock()
  */
 
 typedef unsigned long long tm_t;

@@ -65,9 +65,9 @@ void print_ctime(char *tag)
 
 void start_clock(void)
 {
-	clk_start = clock();
 	result_unit = MS;
 	print_ctime("start_time");
+	clk_start = clock();
 }
 
 tm_t end_clock(void)
@@ -97,9 +97,10 @@ tm_t end_clock(void)
 
 void start_clock_ns(void)
 {
+	print_ctime("start_time");
 	if (clock_gettime(CLOCK_REALTIME, &ts_start) < 0) {
 		perr("clock_gettime error\n");
-		ts_start.tv_sec = ts_start.tv_nsec;
+		ts_start.tv_sec = ts_start.tv_nsec = 0;
 		return;
 	}
 	result_unit = NS;
@@ -112,7 +113,6 @@ tm_t end_clock_ns(void)
 
 	if ((ret = clock_gettime(CLOCK_REALTIME, &ts_end)) < 0) {
 		perr("clock_gettime error\n");
-		ts_end.tv_sec = ts_end.tv_nsec;
 		return 0;
 	}
 	msec = (tm_t) ((ts_end.tv_sec - ts_start.tv_sec) * S2NS +
@@ -130,6 +130,7 @@ tm_t end_clock_ns(void)
 		*(pmsec + msec_offset) = msec;
 		msec_offset ++;
 	}
+	print_ctime("end_time");
 	return msec;
 }
 
