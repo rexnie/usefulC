@@ -59,4 +59,14 @@ void merge_sort(ElementType *a, int n);
  * 最好运行时间:
  */
 void quick_sort(ElementType *a, int n);
+
+/**
+ * 桶式排序算法
+ * 最坏运行时间: O(m+n), m即是桶的个数，max_val的大小
+ * 平均运行时间: O(m+n)
+ * 最好运行时间:
+ * 适用范围: 很多数值很小的非负整数
+ * 需要附加的空间，数组中的最大值max_val就是附加空间的大小
+ */
+void bucket_sort(int *a, int n, int max_val);
 #endif
