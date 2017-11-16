@@ -154,7 +154,10 @@ void finish_and_dump_measure(void)
 		/*printf("i=%-2d %-llu\n", i, *cur);*/
 		printf("%-llu\n", *cur);
 	}
-	printf("max=%llu,min=%llu,avg=%llu\n", max, min, sum / i);
+	if (i > 5)
+		printf("max=%llu,min=%llu,avg=%llu\n", max, min, (sum - max - min) / (i - 2));
+	else
+		printf("max=%llu,min=%llu,avg=%llu\n", max, min, sum / i);
 
 	free(pmsec);
 	msec_offset = 0;
