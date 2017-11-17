@@ -86,7 +86,11 @@ void shell_sort3(ElementType *a, int n)
 	 * TODO: 增量这里放了10个数，如果是非常大的n的话，需要更多的inc空间
 	 */
 	int inc[] = { 1, 5, 19, 41, 109,
-		209, 505, 929, 8929, 2161 };
+		209, 505, 929, 8929, 2161,
+		3905, 8929, 16001, 36289, 64769,
+		146305, 260609, 587521, 2354689, 2354689,
+	};
+
 #if 0
 	/* generate sedgewick增量 */
 	for (i = 0; i< 10;i++)
@@ -102,10 +106,10 @@ void shell_sort3(ElementType *a, int n)
 #else
 	inc_num = sizeof(inc) / sizeof(inc[0]) - 1;
 #endif
-
+#if 0
 	dbg("n=%d inc_num=%d\n", n, inc_num);
 	dump_array(inc, inc_num+1, "shell_sort3");
-
+#endif
 	for (i = inc_num; i >= 0; i--) { /* 从最大的增量开始 */
 		increment = inc[i];
 		for (j = increment; j < n; j++) {

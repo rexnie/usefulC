@@ -14,7 +14,7 @@ int main(void)
 	int min = 1, max = 20;
 #endif
 
-	int case_nums = 1;
+	int case_nums = 6;
 	int test_cases[] = { 10, 100, 1000, 10000, 100000, 1000000 };
 
 	i = 0;
@@ -33,10 +33,10 @@ int main(void)
 			/*insert_sort(ptr, n);*/
 			/*shell_sort(ptr, n);*/
 			/*shell_sort2(ptr, n);*/
-			/*shell_sort3(ptr, n);*/
+			shell_sort3(ptr, n);
 			/*heap_sort(ptr, n);*/
 			/*merge_sort(ptr, n);*/
-			quick_sort(ptr, n);
+			/*quick_sort(ptr, n);*/
 			/*bucket_sort(ptr, n, max);*/
 			end_clock_ns();
 
