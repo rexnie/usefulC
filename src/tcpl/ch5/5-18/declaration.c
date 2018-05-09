@@ -1,9 +1,13 @@
+/**
+ * 将C语言的声明转换为文字描述
+ */
 #include "ds.h"
 #include "getch.h"
 #include <ctype.h>
 
 #define MAXTOKEN 100
 
+/* name, (), [] */
 enum { NAME, PARENS, BRACKETS };
 
 void dcl(void);
@@ -28,29 +32,32 @@ int main(void)
 	return 0;
 }
 
+/**
+ * 返回下一个标记
+ */
 int gettoken(void)
 {
 	int c;
 	char *p = token;
 
+	/* eat the beginning whitespace */
 	while((c = getch()) == ' ' || c == '\t')
 		;
 
 	if(c == '(') {
-		if((c = getch()) == ')') {
+		if((c = getch()) == ')') {    /* () */
 			strcpy(token, "()");
 			return tokentype = PARENS;
-		} else {
+		} else {                      /* (dcl) */
 			ungetch(c);
 			return tokentype = '(';
 		}
-	} else if(c == '[') {
+	} else if(c == '[') {       /* [option_len] */
 		for(*p++ = c; (*p++ = getch()) != ']';)
 			;
 		*p = '\0';
 		return tokentype = BRACKETS;
-
-	} else if(isalpha(c)) {
+	} else if(isalpha(c)) { /* name */
 		for(*p++ = c; isalnum(c = getch());)
 			*p++ = c;
 		*p = '\0';
@@ -61,6 +68,16 @@ int gettoken(void)
 
 }
 
+/**
+ * 声明的语法
+ * dcl:
+ *     可选的* direct-dcl
+ * direct-dcl:
+ *     name
+ *     (dcl)
+ *     direct-dcl()
+ *     direct-dcl[可选的长度]
+ */
 void dcl(void)
 {
 	int ns;
@@ -80,11 +97,11 @@ void dirdcl(void)
 	if(tokentype == '(') {
 		dcl();
 		if(tokentype != ')')
-			dbg("error: missing )\n");
+			err("error: missing )\n");
 	} else if(tokentype == NAME)
 		strcpy(name, token);
 	else
-		dbg("error: expected name or (dcl)\n");
+		err("error: expected name or (dcl)\n");
 	while((type = gettoken()) == PARENS || type == BRACKETS)
 		if(type == PARENS)
 			strcat(out, " function returning");
