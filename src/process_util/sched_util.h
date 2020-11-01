@@ -49,14 +49,14 @@ char *policy_name(int policy)
 //#include <linux/sched/types.h>
 void dump_sched_attr(struct sched_attr *attr)
 {
-	printf("sizeof(struct sched_attr) in userspace: %d/kernel space:%d\n", sizeof(struct sched_attr), attr->size);
-	printf("sched_policy: %d, %s\n", attr->sched_policy, policy_name(attr->sched_policy));
-	printf("sched_flags: %d\n", attr->sched_flags);
+	printf("sizeof(struct sched_attr) in userspace: %ld/kernel space:%d\n", sizeof(struct sched_attr), attr->size);
+	printf("sched_policy: %d (%s)\n", attr->sched_policy, policy_name(attr->sched_policy));
+	printf("sched_flags: %lld\n", attr->sched_flags);
 	printf("sched_nice: %d\n", attr->sched_nice);
 	printf("sched_priority: %d\n", attr->sched_priority);
-	printf("sched_runtime: %ld\n", attr->sched_runtime);
-	printf("sched_deadline: %ld\n", attr->sched_deadline);
-	printf("sched_period: %ld\n", attr->sched_period);
+	printf("sched_runtime: %lld\n", attr->sched_runtime);
+	printf("sched_deadline: %lld\n", attr->sched_deadline);
+	printf("sched_period: %lld\n", attr->sched_period);
 }
 #endif
 
