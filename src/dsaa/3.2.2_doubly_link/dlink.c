@@ -163,13 +163,93 @@ void print_dlink(dlink *head)
     }
 }
 
+#define no_duplicated_inner
+
+static int delete_node_by_pattern(dlink **pHead, int pattern)
+{
+    int ret = 0;
+    dlink *pNode = *pHead, *tmp;
+
+    if(NULL == *pHead)   return 0;
+
+    while(NULL != pNode)
+    {
+        if(pNode->val == pattern) {
+            tmp = pNode->next;
+            if(NULL == pNode->pre && NULL == pNode->next) { /* only one node to delete */
+                *pHead = NULL;
+                tmp = NULL;
+            } else if (NULL == pNode->pre) { /* first node */
+                *pHead = pNode->next;
+                (*pHead)->pre = NULL;
+            } else if(NULL == pNode->next) { /* tail node */
+                pNode->pre->next = NULL;
+            } else {
+                pNode->pre->next = pNode->next;
+                pNode->next->pre = pNode->pre;
+            }
+            free (pNode);
+            ret = 1;
+
+#ifdef no_duplicated_inner
+            break; /*如果指明了B中的节点值都唯一，可以break; 如果B中的节点值有相同的，应该删除break; */
+#else
+            pNode = tmp;
+#endif
+        } else {
+                pNode = pNode->next;
+        }
+    }
+    return ret;
+}
+
+
+void delete_duplicated_between_linked_lists(dlink **pHeadA, dlink **pHeadB)
+{
+    dlink *pNode = *pHeadA, *pNextNode;
+    if ( ( NULL == *pHeadA) || (NULL == *pHeadB) ) return;
+
+    while(NULL != pNode)
+    {
+        if(delete_node_by_pattern(pHeadB, pNode->val))
+        {
+            if(NULL == pNode->pre && NULL == pNode->next) { /* only one node */
+                *pHeadA = NULL;
+                free(pNode);
+                return;
+            } else if(NULL == pNode->pre){ /* first node */
+                *pHeadA = pNode->next;
+                (*pHeadA)->pre = NULL;
+            } else if (NULL == pNode->next) { /* tail node */
+                pNode->pre->next = NULL;
+            } else {
+                pNode->pre->next = pNode->next;
+                pNode->next->pre = pNode->pre;
+            }
+#ifdef no_duplicated_inner
+            pNextNode = pNode->next;
+            free (pNode);  /*如果指明了A链表中的节点值都唯一*/
+            pNode = pNextNode;
+#else
+            delete_node_by_pattern(pHeadA, pNode->val);
+#endif
+        } else {
+                pNode = pNode->next;
+        }
+    }
+}
+
 int main(void)
 {
    dlink *head = NULL;
+   dlink *headA = NULL, *headB = NULL;
 
    head = make_empty_dlink(head);
 
-#define TCASE 9
+   headA = make_empty_dlink(headA);
+   headB = make_empty_dlink(headB);
+
+#define TCASE 10
 #if TCASE == 1
    /* 头插法建立双链表
     * 4 3 2 1
@@ -283,7 +363,35 @@ int main(void)
    print_dlink(head);
 #endif
 
+#if TCASE == 10
+   /* 删除两个链表中具有相同值的节点
+    */
+   headA = insert_to_head_of_dlink(headA, 4);
+   headA = insert_to_head_of_dlink(headA, 3);
+   headA = insert_to_head_of_dlink(headA, 2);
+
+   headB = insert_to_head_of_dlink(headB, 2);
+   headB = insert_to_head_of_dlink(headB, 5);
+   headB = insert_to_head_of_dlink(headB, 1);
+
+   printf("A:\n");
+   print_dlink(headA);
+   printf("B:\n");
+   print_dlink(headB);
+
+   delete_duplicated_between_linked_lists(&headA, &headB);
+
+   printf("after delete\n");
+   printf("A:\n");
+   print_dlink(headA);
+   printf("B:\n");
+   print_dlink(headB);
+#endif
+
    make_empty_dlink(head);
+
+   make_empty_dlink(headA);
+   make_empty_dlink(headB);
 
    return 0;
 }
