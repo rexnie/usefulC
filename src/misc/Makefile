@@ -15,12 +15,15 @@ DEP_LIB := $(PATH_DSAA)/lib/libds.a
 
 BIN_GETOPT := getopt_demo.out
 
-all : mylibs $(BIN_GETOPT) my_memcpy.bin
+all : mylibs $(BIN_GETOPT) my_memcpy.bin count_1_in_byte.bin
 
 $(BIN_GETOPT) : getopt_demo.c $(DEP_LIB)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(LDLIBS)
 
 my_memcpy.bin: my_memcpy.c $(DEP_LIB)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(LDLIBS)
+
+count_1_in_byte.bin: count_1_in_byte.c $(DEP_LIB)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(LDLIBS)
 
 .PHONY : clean db mylibs
